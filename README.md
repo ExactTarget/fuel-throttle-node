@@ -3,10 +3,8 @@ Fuel Throttle
 
 Create an Node.js-based ExactTarget Hub App, configured to run in Stackato
 
-NOTE
-==========
-
-Fuel Throttle and this associated scaffolding tool are still in Alpha development. Use at your own risk.
+**Note**
+Fuel Throttle is in Beta development. Use at your own risk.
 
 HOW TO USE
 ==========
