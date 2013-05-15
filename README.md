@@ -1,4 +1,4 @@
-grunt-init-exacttarget-hub-app
+Fuel Throttle
 ==============================
 
 Create an Node.js-based ExactTarget Hub App, configured to run in Stackato
