@@ -1,0 +1,12 @@
+name: {%=name%}
+instances: 1
+framework:
+  type: node
+  runtime: node08
+mem: 128
+services:
+    ${name}-db: mongodb
+ignores: ['.git', 'node_modules', 'Gruntfile.js']
+hooks:
+    pre-staging:
+    - npm config set production true
