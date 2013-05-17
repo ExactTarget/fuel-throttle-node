@@ -137,9 +137,20 @@ MIT
 
 *Free Software, Currently only recommended for internal ExactTarget usage!*
 
+Author(s):
+_ [Benjamin Dean][@creatovisguru]
+
+Reference and Contributor(s):
+- [Adam Alexander][@adamalex]
+- [Christopher McCulloh][@cmcculloh]
+- [David Brainer-Banker][@tweettypography]
+- [Jason Schmidt][@jschmidtatet]
+
   [@adamalex]: http://twitter.com/adamalex
   [@creatovisguru]: http://twitter.com/bdeanindy
   [@jschmidtatet]: http://twitter.com/zannalov
+  [@cmcculloh]: http://github.com/cmcculloh
+  [@tweettypography]: http://github.com/tweettypography
   [node.js]: http://nodejs.org
   [Node.js]: http://nodejs.org
   [Node.js download]: http://nodejs.org/download/
