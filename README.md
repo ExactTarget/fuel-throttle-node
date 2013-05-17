@@ -161,8 +161,8 @@ MIT
   [Grunt-init]: http://gruntjs.com/project-scaffolding
   [Github]: http://github.com
   [Volo]: https://github.com/volojs/volo
-  [issue list]: https://github.com/creatovisguru/NodeShellApp/issues
-  [milestones]: https://github.com/creatovisguru/NodeShellApp/issues/milestones
+  [issue list]: https://github.com/ExactTarget/fuel-throttle-node/issues
+  [milestones]: https://github.com/ExactTarget/fuel-throttle-node/issues/milestones
   [MongoDB]: http://docs.mongodb.org/manual/installation/
   [NewRelic]: http://newrelic.com/
   [InstallGruntPhantom]: https://github.com/ExactTarget/fuelux/wiki/Installing-grunt-and-PhantomJS
