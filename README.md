@@ -69,7 +69,7 @@ HOW TO USE
 ==========
 - `npm install -g grunt grunt-cli grunt-init`
 - `mkdir ~/.grunt-init`
-- `git clone git@github.com:ExactTarget/fuel-throttle-grunt-init.git ~/.grunt-init/et-hub-app`
+- `git clone git@github.com:ExactTarget/fuel-throttle-node.git ~/.grunt-init/et-hub-app`
 - Test that the template is available: `grunt-init --help` (look in the templates section you should see et-hub-app)
 - `mkdir <path/to/your/apps/><yourNewAppName>` (directory name will be the name of the new app by default, but can be changed)
 - `cd <path/to/your/apps/yourNewAppName>`
