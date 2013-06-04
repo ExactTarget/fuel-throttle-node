@@ -195,7 +195,7 @@ TokenFactory.prototype._getSessionIdFromCookie = function( req ) {
     if( _.isEmpty( req.signedCookies ) ) {
         return false;
     }
-    var clientSessionId = req.signedCookies.{%=name%}.id;
+    var clientSessionId = req.signedCookies['{%=name%}'].id;
 
     return clientSessionId;
 };
