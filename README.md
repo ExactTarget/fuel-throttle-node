@@ -1,8 +1,7 @@
 Fuel Throttle
 ==============================
-**Note:** Fuel Throttle is in Beta development. Use at your own risk.
 
-Fuel Throttle is an acceleration project focused on helping developers do what they do best...WRITE APP CODE!
+Fuel Throttle is an application scaffolding / acceleration project focused on helping developers do what they do best...WRITE APP CODE!
 
 The primary use case for Fuel Throttle (Node) is centered around the following tech:
 
