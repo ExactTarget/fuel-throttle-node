@@ -87,7 +87,7 @@ TokenFactory.prototype._fetchSessionParams = function( req, res, callback ) {
     // Create a new instance of the fuel-node object
     paramsObj.tokenInstanceObj = this._configureFuelInstance( jwtObj.refresToken );
     // Add new client session to activeSessions collection, with id as key
-    this._createNewActiveSession( req, paramsObj.clientSessionId, paramsObj.tokenInstnaceObj );
+    this._createNewActiveSession( req, paramsObj.clientSessionId, paramsObj.tokenInstanceObj );
 
     // Return the params obj 
     return paramsObj;
