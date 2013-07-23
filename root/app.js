@@ -49,6 +49,9 @@ var tokenManager = function( req, res, next ) {
 			}
 			next();
 		});
+	} else {
+		// if we do have a valid session, continue on
+		next();
 	}
 };
 
