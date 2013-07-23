@@ -102,12 +102,9 @@ TokenFactory.prototype._fetchSessionParams = function( req, res, callback ) {
  *  true, else false (one or the other is missing)
  */
 TokenFactory.prototype.isValidSession = function( req ) {
-    var csid = false;
-    if( undefined !== this._getSessionIdFromCookie( req ) ) {
-        csid = true;
-    }
+    var csid = this._getSessionIdFromCookie( req );
 
-    return ( this.activeSessions.hasOwnProperty( csid ) && csid );
+    return ( csid && this.activeSessions.hasOwnProperty( csid ) );
 };
 
 // Add this new client to activeSessions object, which maps the clientSession ID (MD5) to the fuel-node instance
