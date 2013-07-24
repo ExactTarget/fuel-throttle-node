@@ -119,7 +119,7 @@ Contributing to Fuel Throttle
 --------------
 Contributions are welcomed, to contribute to Fuel Throttle:
 
-1. Before writing code, we suggest you [search for issues](https://github.com/creatovisguru/NodeShellApp/issues?state=open) or [create a new one](https://github.com/creatovisguru/NodeShellApp/issues/new) to confirm where your contribution fits into our roadmap. 
+1. Before writing code, we suggest you [search for issues](https://github.com/ExactTarget/fuel-throttle-node/issues?state=open) or [create a new one](https://github.com/ExactTarget/fuel-throttle-node/issues/new) to confirm where your contribution fits into our roadmap. 
 1. Fork the Fuel Throttle repo [GitHub help](https://help.github.com/articles/fork-a-repo)
 1. Make your changes, being sure to add unit tests for new or changed functionality
 1. Run `grunt package` to lint, test, and package up the library
