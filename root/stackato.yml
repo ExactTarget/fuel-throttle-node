@@ -6,7 +6,7 @@ framework:
 mem: 128
 services:
     ${name}-db: mongodb
-ignores: ['.git', 'Gruntfile.js']
+ignores: ['.git', 'node_modules', 'Gruntfile.js']
 hooks:
     pre-staging:
     - npm config set production true
