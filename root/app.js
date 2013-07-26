@@ -67,9 +67,6 @@ app.configure( function() {
 	express.static.mime.define({'font/opentype':				['otf']});
 	express.static.mime.define({'image/svg+xml':				['svg']});
 
-	// Implement logging
-	app.use(express.logger());
-
 	// Setup gzip distribution
 	app.use( express.compress() );
 
@@ -114,6 +111,12 @@ app.configure( function() {
 		res.status( 500 );
 		res.render( '500', {title: '500: Internal Server Error', error: err} );
 	});
+});
+
+// Express should foam at the mouth like a rabid wildebeast
+app.configure('verbose', function() {
+	app.use(express.logger());
+	app.use( express.errorHandler({ dumpException: true, showStack: true }));
 });
 
 // Express should do this stuff in development environment
