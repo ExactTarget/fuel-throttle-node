@@ -106,7 +106,7 @@ app.configure( function() {
 	// Handle 404
 	app.use( function( req, res ) {
 		res.status( 404 );
-		res.render( '400', {title: '404: File Not Found', error: 'The file you are seeking is not here'} );
+		res.render( '404', {title: '404: File Not Found', error: 'The file you are seeking is not here'} );
 	});
 
 	// Handle 500 errors
