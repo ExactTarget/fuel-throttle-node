@@ -113,7 +113,7 @@ app.configure( function() {
 	});
 });
 
-// Express should foam at the mouth like a rabid wildebeast
+// Express should foam at the mouth like a rabid wildebeest
 app.configure('verbose', function() {
 	app.use(express.logger());
 	app.use( express.errorHandler({ dumpException: true, showStack: true }));
