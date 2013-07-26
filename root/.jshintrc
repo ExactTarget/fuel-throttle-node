@@ -17,7 +17,6 @@
 	"newcap": true, 
 	"noarg": true, 
 	"node": true, 
-	"smarttabs": true,
 	"sub": true, 
 	"undef": true
 }
