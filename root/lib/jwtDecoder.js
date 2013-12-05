@@ -12,7 +12,7 @@ var JwtDecoder = module.exports = function JwtDecoder( options ) {
 
 JwtDecoder.VERSION = VERSION;
 
-JwtDecoder.prototype.decode = function( req ) {
+JwtDecoder.prototype.decode = function( req, callback ) {
     var jwtObj = {};
     var jwt = req.body.jwt;
 
@@ -23,11 +23,12 @@ JwtDecoder.prototype.decode = function( req ) {
         jwtObj.casToken     = decoded.request.user.internalOauthToken;
         jwtObj.culture      = decoded.request.user.culture;
         jwtObj.timezone     = decoded.request.user.timezone; //OBJECT
-        jwtObj.expires      = ( decoded.expiresIn * 1000 ) - 60000;
+        jwtObj.expires      = ( decoded.request.user.expiresIn * 1000 ) - 60000;
     } catch( ex ) {
         console.error( 'Decoding failed for jwt: ' + jwt );
         console.error( 'Exception: ' + ex );
+        callback( ex );
     }
 
-    return jwtObj;
+    callback( null, jwtObj );
 };

@@ -1,6 +1,8 @@
+// TODO: Only include this file if user wants to use Mongo (app or sessions)
 /*jshint node:true*/
 'use strict';
 
+var config = require( 'config' );
 var mongoose = require( 'mongoose' );
 
 // Need to capture database configurations from Stackato
@@ -12,7 +14,7 @@ function mongoConnStrBuilder() {
     // Should only enter if we are on a Stackato service
     if( null !== boundServices ) {
         //boundServices = JSON.parse( boundServices );
-        var credentials = boundServices['{%=name%}-db'];
+        var credentials = boundServices[config.mongo.db];
         connectionStr += 'mongodb://';
         if( credentials['username'] ) {
             connectionStr += credentials['username'] + ':';
@@ -37,22 +39,19 @@ function mongoConnStrBuilder() {
 // Make sure we only parse if we're on stackato
 if( null !== boundServices ) {
     boundServices = JSON.parse( boundServices.replace( /\//g, '' ) );
-
-    // TODO: Allow user to define the database name in scaffolding
-    var credentials = boundServices['{%=name%}-db'];
-    // generate mongo connection URI
+    var credentials = boundServices[config.mongo.db];
     var mongoConnectionStr = mongoConnStrBuilder();
-    var connection = mongoose.createConnection( mongoConnectionStr );
+    mongoose.connect( mongoConnectionStr );
 } else {
-    connection = mongoose.createConnection( 'localhost', '{%=name%}-db' );
+    mongoose.connect( 'mongodb://localhost/' + config.mongo.db );
 }
 
-connection.on( 'open', function() {
-    //console.log( 'Connection opened to mongodb' );
+mongoose.connection.on('open', function() {
+    console.log( 'Connect to database ' + config.mongo.db + ' was successful' );
 });
 
-connection.on( 'error', function( err ) {
-    //console.log( err );
+mongoose.connection.on('error', function( err ) {
+    console.error( 'MongoDB Error: ', err );
 });
 
-exports.connection = connection;
+exports.connection = mongoose.connection;

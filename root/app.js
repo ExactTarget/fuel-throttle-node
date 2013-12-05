@@ -21,18 +21,20 @@ var dataRoutes = require( './routes/dataRoutes' );
 var app	= module.exports = express();
 
 // TODO: Configure app defaults from config
+// TODO: If user chooses to implement MongoDB, need to implement
+// Session Store
+//var MongoStore		= require('connect-mongo')(express);
 
 // Helpers
 var appHelpers		= require( './lib/app-helpers' );
 var hbsHelpers		= require( './lib/hbs-helpers' );
 var packageJSON		= require( './package.json' );
 
-// Instantiate new TokenFactory for use
-var tf = new TokenFactory({});
-
 /****************************
 	Custom Middleware
 ****************************/
+// Instantiate new TokenFactory for use
+var tf = new TokenFactory({});
 
 /** tokenManager
  *	Manages connection instances with cookies and fuel-node
@@ -41,14 +43,36 @@ var tf = new TokenFactory({});
  *	@param {function} next
  */
 var tokenManager = function( req, res, next ) {
-	// If we don't have a valid session, create one
-	if( !tf.isValidSession( req ) ) {
+	if( !req.session || !req.session.jwtObj ) {
+	// There is a JWT present, let's use that
+		//console.log( 'IS NOT VALID SESSION...' );
 		tf.upsertSession( req, res, function( error, data ) {
 			if( error ) {
-				throw new Error( error );
+				console.error( 'Error: ' + error );
+				next();
+			} else {
+				//console.log( 'SUCCESS NEW SESSION: ', req.session );
+				next();
 			}
-			next();
 		});
+	} else {
+	// Valid request from an authenticated client
+		var now =  +new Date();
+		var tokenExpiration = req.session.timeValidation;
+		var jwtTokenExpires = req.session.jwtObj.expires;
+		if( ( now - tokenExpiration ) > jwtTokenExpires ) {
+			tf.refreshToken( req, res, function( error, data ) {
+				if( error ) {
+					console.error( 'Error: ' + error );
+					next();
+				} else {
+					//console.log( 'SUCCESS UPDATED SESSION' );
+					next();
+				}
+			});
+		} else {
+			next();
+		}
 	}
 };
 
@@ -83,15 +107,32 @@ app.configure( function() {
 	app.use(express.methodOverride());
 
 	// Use the bodyParser middleware.
+	// TODO: Ask for prompt values and do not user bodyParser
 	app.use(express.bodyParser());
 
+	// CORS
+	app.use( appHelpers.enableCORS );
+
+// TODO: Ask user if they want cookie-based or persistent storage
+// The following is cookie-based
 	// Use the cookie-based session  middleware
 	app.use(express.cookieParser('{%=name%}SignedCookieSecret'));
 
 	// TODO: MaxAge for cookie based on token exp?
 	app.use(express.cookieSession({secret: "{%=name%}PreventCookieTamperingSecret", cookie:{ httpOnly: true, signed: true }}));
-
-	app.use( appHelpers.enableCORS );
+// TODO: Ask user if they want cookie-based or persistent storage
+// The following is persistent storage
+// TODO: Prompt user for maxAge of cookies EX: 24 * 360000
+	app.use(express.session({
+		store: new MongoStore({
+			mongoose_connection: database.connection
+		}),
+		secret: '{%=name%}PreventCookieTamperingSecret',
+		cookie: {
+			maxAge: {%=maxAgeSession%},
+			signed: true
+		}
+	}));
 
 	// Use the router middleware
 	app.use(app.router);
@@ -106,11 +147,13 @@ app.configure( function() {
 		res.render( '400', {title: '404: File Not Found', error: 'The file you are seeking is not here'} );
 	});
 
+/* TODO: Figure out why this isn't working
 	// Handle 500 errors
 	app.use( function( err, req, res, next ) {
 		res.status( 500 );
 		res.render( '500', {title: '500: Internal Server Error', error: err} );
 	});
+*/
 });
 
 // Express should do this stuff in development environment
@@ -136,8 +179,11 @@ app.post('/login', tokenManager, routes.login );
 
 app.get('/logout', routes.logout );
 
+/*
+TODO: Prompt user if they want to use MongoDB in their app, if they do...implement
 // Data routes
 app.post('/rest/item', dataRoutes.createItem );
+*/
 
 // Local testing
 app.get('/testform', function( req, res ) {
