@@ -138,7 +138,10 @@ hbs.registerHelper('toLowerCase', hbsHelpers.toLowerCase);
 // Required Route Configuration
 app.get('/', routes.getIndex );
 
-app.post('/login', tokenManager, routes.login );
+// fuel-throttle was built with single page apps in mind.
+// this is why below is set to "/"
+// this value should match the value in appCenter
+app.post('/', tokenManager, routes.login );
 
 app.get('/logout', routes.logout );
 
