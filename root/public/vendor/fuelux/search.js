@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function(require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -32,20 +32,20 @@ define(['require','jquery'],function(require) {
 
 		constructor: Search,
 
-		search: function (searchText) {
+		search(searchText) {
 			this.$icon.attr('class', 'icon-remove');
 			this.activeSearch = searchText;
 			this.$element.trigger('searched', searchText);
 		},
 
-		clear: function () {
+		clear() {
 			this.$icon.attr('class', 'icon-search');
 			this.activeSearch = '';
 			this.$input.val('');
 			this.$element.trigger('cleared');
 		},
 
-		action: function () {
+		action() {
 			var val = this.$input.val();
 			var inputEmptyOrUnchanged = val === '' || val === this.activeSearch;
 
@@ -56,22 +56,23 @@ define(['require','jquery'],function(require) {
 			}
 		},
 
-		buttonclicked: function (e) {
+		buttonclicked(e) {
 			e.preventDefault();
 			if ($(e.currentTarget).is('.disabled, :disabled')) return;
 			this.action();
 		},
 
-		keypress: function (e) {
+		keypress(e) {
 			if (e.which === 13) {
 				e.preventDefault();
 			}
 		},
 
-		keypressed: function (e) {
-			var val, inputPresentAndUnchanged;
+		keypressed(e) {
+            var val;
+            var inputPresentAndUnchanged;
 
-			if (e.which === 13) {
+            if (e.which === 13) {
 				e.preventDefault();
 				this.action();
 			} else {
@@ -79,14 +80,14 @@ define(['require','jquery'],function(require) {
 				inputPresentAndUnchanged = val && (val === this.activeSearch);
 				this.$icon.attr('class', inputPresentAndUnchanged ? 'icon-remove' : 'icon-search');
 			}
-		},
+        },
 
-		disable: function () {
+		disable() {
 			this.$input.attr('disabled', 'disabled');
 			this.$button.addClass('disabled');
 		},
 
-		enable: function () {
+		enable() {
 			this.$input.removeAttr('disabled');
 			this.$button.removeClass('disabled');
 		}
@@ -114,7 +115,7 @@ define(['require','jquery'],function(require) {
 
 	// SEARCH DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.search.data-api', '.search', function () {
 			var $this = $(this);
 			if ($this.data('search')) return;

@@ -12,7 +12,7 @@ var JwtDecoder = module.exports = function JwtDecoder( options ) {
 
 JwtDecoder.VERSION = VERSION;
 
-JwtDecoder.prototype.decode = function( req ) {
+JwtDecoder.prototype.decode = req => {
     var jwtObj = {};
     var jwt = req.body.jwt;
 

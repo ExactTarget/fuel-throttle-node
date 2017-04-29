@@ -1,9 +1,9 @@
-define( function( require ) {
+define( require => {
 	var Backbone = require( 'backbone' );
 	var Config = require( 'config' );
 
 	return Backbone.Collection.extend({
-		parse: function(data) {
+		parse(data) {
 			this.paging = {
 				page: data.page || 1,
 				pageSize: data.pageSize,

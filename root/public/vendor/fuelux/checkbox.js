@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function (require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -34,7 +34,7 @@ define(['require','jquery'],function (require) {
 
 		constructor: Checkbox,
 
-		setState: function ($chk) {
+		setState($chk) {
 			var checked = $chk.is(':checked');
 			var disabled = $chk.is(':disabled');
 
@@ -50,21 +50,21 @@ define(['require','jquery'],function (require) {
 			}
 		},
 
-		enable: function () {
+		enable() {
 			this.$chk.attr('disabled', false);
 			this.$icon.removeClass('disabled');
 		},
 
-		disable: function () {
+		disable() {
 			this.$chk.attr('disabled', true);
 			this.$icon.addClass('disabled');
 		},
 
-		toggle: function () {
+		toggle() {
 			this.$chk.click();
 		},
 
-		itemchecked: function (e) {
+		itemchecked(e) {
 			var chk = $(e.target);
 			this.setState(chk);
 		}
@@ -95,8 +95,8 @@ define(['require','jquery'],function (require) {
 
 	// CHECKBOX DATA-API
 
-	$(function () {
-		$(window).on('load', function () {
+	$(() => {
+		$(window).on('load', () => {
 			//$('i.checkbox').each(function () {
 			$('.checkbox-custom > input[type=checkbox]').each(function () {
 				var $this = $(this);

@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function(require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -54,12 +54,12 @@ define(['require','jquery'],function(require) {
 	Spinner.prototype = {
 		constructor: Spinner,
 
-		render: function () {
+		render() {
 			this.$input.val(this.options.value);
 			this.$input.attr('maxlength',(this.options.max + '').split('').length);
 		},
 
-		change: function () {
+		change() {
 			var newVal = this.$input.val();
 
 			if(newVal/1){
@@ -73,13 +73,13 @@ define(['require','jquery'],function(require) {
 			this.triggerChangedEvent();
 		},
 
-		stopSpin: function () {
+		stopSpin() {
 			clearTimeout(this.switches.timeout);
 			this.switches.count = 1;
 			this.triggerChangedEvent();
 		},
 
-		triggerChangedEvent: function () {
+		triggerChangedEvent() {
 			var currentValue = this.value();
 			if (currentValue === this.lastValue) return;
 
@@ -92,7 +92,7 @@ define(['require','jquery'],function(require) {
 			this.$element.trigger('change');
 		},
 
-		startSpin: function (type) {
+		startSpin(type) {
 
 			if (!this.options.disabled) {
 				var divisor = this.switches.count;
@@ -113,12 +113,12 @@ define(['require','jquery'],function(require) {
 			}
 		},
 
-		iterator: function (type) {
+		iterator(type) {
 			this.step(type);
 			this.startSpin(type);
 		},
 
-		step: function (dir) {
+		step(dir) {
 			var curValue = this.options.value;
 			var limValue = dir ? this.options.max : this.options.min;
 
@@ -133,7 +133,7 @@ define(['require','jquery'],function(require) {
 			}
 		},
 
-		value: function (value) {
+		value(value) {
 			if (typeof value !== 'undefined') {
 				this.options.value = value;
 				this.$input.val(value);
@@ -143,13 +143,13 @@ define(['require','jquery'],function(require) {
 			}
 		},
 
-		disable: function () {
+		disable() {
 			this.options.disabled = true;
 			this.$input.attr('disabled','');
 			this.$element.find('button').addClass('disabled');
 		},
 
-		enable: function () {
+		enable() {
 			this.options.disabled = false;
 			this.$input.removeAttr("disabled");
 			this.$element.find('button').removeClass('disabled');
@@ -189,7 +189,7 @@ define(['require','jquery'],function(require) {
 
 	// SPINNER DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.spinner.data-api', '.spinner', function (e) {
 			var $this = $(this);
 			if ($this.data('spinner')) return;

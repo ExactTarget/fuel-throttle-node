@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function (require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -37,7 +37,7 @@ define(['require','jquery'],function (require) {
 
 		constructor: Wizard,
 
-		setState: function () {
+		setState() {
 			var canMovePrev = (this.currentStep > 1);
 			var firstStep = (this.currentStep === 1);
 			var lastStep = (this.currentStep === this.numSteps);
@@ -82,7 +82,7 @@ define(['require','jquery'],function (require) {
 			this.$element.trigger('changed');
 		},
 
-		stepclicked: function (e) {
+		stepclicked(e) {
 			var li = $(e.currentTarget);
 
 			var index = $('.steps li').index(li);
@@ -95,7 +95,7 @@ define(['require','jquery'],function (require) {
 			this.setState();
 		},
 
-		previous: function () {
+		previous() {
 			var canMovePrev = (this.currentStep > 1);
 			if (canMovePrev) {
 				var e = $.Event('change');
@@ -107,7 +107,7 @@ define(['require','jquery'],function (require) {
 			}
 		},
 
-		next: function () {
+		next() {
 			var canMoveNext = (this.currentStep + 1 <= this.numSteps);
 			var lastStep = (this.currentStep === this.numSteps);
 
@@ -125,7 +125,7 @@ define(['require','jquery'],function (require) {
 			}
 		},
 
-		selectedItem: function (val) {
+		selectedItem(val) {
 			return {
 				step: this.currentStep
 			};
@@ -157,7 +157,7 @@ define(['require','jquery'],function (require) {
 
 	// WIZARD DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.wizard.data-api', '.wizard', function () {
 			var $this = $(this);
 			if ($this.data('wizard')) return;

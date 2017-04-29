@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function (require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -34,7 +34,7 @@ define(['require','jquery'],function (require) {
 
 		constructor: Radio,
 
-		setState: function ($radio, resetGroupState) {
+		setState($radio, resetGroupState) {
 			var checked = $radio.is(':checked');
 			var disabled = $radio.is(':disabled');
 
@@ -47,22 +47,22 @@ define(['require','jquery'],function (require) {
 			}
 		},
 
-		resetGroup: function () {
+		resetGroup() {
 			// reset all radio buttons in group
 			$('input[name=' + this.groupName + ']').next().removeClass('checked');
 		},
 
-		enable: function () {
+		enable() {
 			this.$radio.attr('disabled', false);
 			this.$icon.removeClass('disabled');
 		},
 
-		disable: function () {
+		disable() {
 			this.$radio.attr('disabled', true);
 			this.$icon.addClass('disabled');
 		},
 
-		itemchecked: function (e) {
+		itemchecked(e) {
 			var radio = $(e.target);
 
 			this.resetGroup();
@@ -95,8 +95,8 @@ define(['require','jquery'],function (require) {
 
 	// RADIO DATA-API
 
-	$(function () {
-		$(window).on('load', function () {
+	$(() => {
+		$(window).on('load', () => {
 			//$('i.radio').each(function () {
 			$('.radio-custom > input[type=radio]').each(function () {
 				var $this = $(this);

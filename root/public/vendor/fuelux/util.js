@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function (require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -16,13 +16,7 @@ define(['require','jquery'],function (require) {
 	}
 
 	$.expr[':'].fuelTextExactCI = $.expr.createPseudo ?
-		$.expr.createPseudo(function (text) {
-			return function (elem) {
-				return fuelTextExactCI(elem, text);
-			};
-		}) :
-		function (elem, i, match) {
-			return fuelTextExactCI(elem, match[3]);
-		};
+		$.expr.createPseudo(text => elem => fuelTextExactCI(elem, text)) :
+		(elem, i, match) => fuelTextExactCI(elem, match[3]);
 
 });

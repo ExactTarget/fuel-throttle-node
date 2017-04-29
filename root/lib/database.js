@@ -47,11 +47,11 @@ if( null !== boundServices ) {
     connection = mongoose.createConnection( 'localhost', '{%=name%}-db' );
 }
 
-connection.on( 'open', function() {
+connection.on( 'open', () => {
     //console.log( 'Connection opened to mongodb' );
 });
 
-connection.on( 'error', function( err ) {
+connection.on( 'error', err => {
     //console.log( err );
 });
 

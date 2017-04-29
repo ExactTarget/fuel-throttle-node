@@ -2,7 +2,7 @@
 
 var path = require( 'path' );
 
-module.exports = function( grunt ) {
+module.exports = grunt => {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
@@ -120,7 +120,7 @@ module.exports = function( grunt ) {
     ]);
 
     // Debug task, don't warn about console statements
-    grunt.registerTask( 'development', 'Development Task', function() {
+    grunt.registerTask( 'development', 'Development Task', () => {
         grunt.config( 'jshint.options.devel', true );
         grunt.config( 'requirejs.compile.options.optimize', 'none' );
         grunt.task.run( 'default' );

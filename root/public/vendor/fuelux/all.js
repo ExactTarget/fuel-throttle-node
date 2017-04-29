@@ -1,6 +1,6 @@
 (function () {
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-transition',['jquery'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-transition',['jquery'], () => { ((() => {
 
 /* ===================================================
  * bootstrap-transition.js v2.3.0
@@ -22,7 +22,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -30,46 +30,46 @@
   /* CSS TRANSITION SUPPORT (http://www.modernizr.com/)
    * ======================================================= */
 
-  $(function () {
+  $(() => {
 
-    $.support.transition = (function () {
+    $.support.transition = ((() => {
 
-      var transitionEnd = (function () {
+      var transitionEnd = ((() => {
+        var el = document.createElement('bootstrap');
 
-        var el = document.createElement('bootstrap')
-          , transEndEventNames = {
+        var transEndEventNames = {
                'WebkitTransition' : 'webkitTransitionEnd'
             ,  'MozTransition'    : 'transitionend'
             ,  'OTransition'      : 'oTransitionEnd otransitionend'
             ,  'transition'       : 'transitionend'
-            }
-          , name
+            };
+
+        var name;
 
         for (name in transEndEventNames){
           if (el.style[name] !== undefined) {
             return transEndEventNames[name]
           }
         }
-
-      }())
+      })())
 
       return transitionEnd && {
         end: transitionEnd
       }
 
-    })()
+    }))()
 
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-affix',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-affix',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ==========================================================
  * bootstrap-affix.js v2.3.0
@@ -91,7 +91,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -111,14 +111,14 @@
   Affix.prototype.checkPosition = function () {
     if (!this.$element.is(':visible')) return
 
-    var scrollHeight = $(document).height()
-      , scrollTop = this.$window.scrollTop()
-      , position = this.$element.offset()
-      , offset = this.options.offset
-      , offsetBottom = offset.bottom
-      , offsetTop = offset.top
-      , reset = 'affix affix-top affix-bottom'
-      , affix
+    var scrollHeight = $(document).height();
+    var scrollTop = this.$window.scrollTop();
+    var position = this.$element.offset();
+    var offset = this.options.offset;
+    var offsetBottom = offset.bottom;
+    var offsetTop = offset.top;
+    var reset = 'affix affix-top affix-bottom';
+    var affix;
 
     if (typeof offset != 'object') offsetBottom = offsetTop = offset
     if (typeof offsetTop == 'function') offsetTop = offset.top()
@@ -145,12 +145,12 @@
 
   $.fn.affix = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('affix')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('affix');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('affix', (data = new Affix(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.affix.Constructor = Affix
@@ -172,10 +172,10 @@
  /* AFFIX DATA-API
   * ============== */
 
-  $(window).on('load', function () {
+  $(window).on('load', () => {
     $('[data-spy="affix"]').each(function () {
-      var $spy = $(this)
-        , data = $spy.data()
+      var $spy = $(this);
+      var data = $spy.data();
 
       data.offset = data.offset || {}
 
@@ -187,15 +187,15 @@
   })
 
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-alert',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-alert',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ==========================================================
  * bootstrap-alert.js v2.3.0
@@ -217,23 +217,23 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
+  // jshint ;_;
 
-   // jshint ;_;
 
+  /* ALERT CLASS DEFINITION
+   * ====================== */
 
- /* ALERT CLASS DEFINITION
-  * ====================== */
+  var dismiss = '[data-dismiss="alert"]';
 
-  var dismiss = '[data-dismiss="alert"]'
-    , Alert = function (el) {
+  var Alert = function (el) {
         $(el).on('click', dismiss, this.close)
-      }
+      };
 
   Alert.prototype.close = function (e) {
-    var $this = $(this)
-      , selector = $this.attr('data-target')
-      , $parent
+    var $this = $(this);
+    var selector = $this.attr('data-target');
+    var $parent;
 
     if (!selector) {
       selector = $this.attr('href')
@@ -264,25 +264,25 @@
   }
 
 
- /* ALERT PLUGIN DEFINITION
-  * ======================= */
+  /* ALERT PLUGIN DEFINITION
+   * ======================= */
 
   var old = $.fn.alert
 
   $.fn.alert = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('alert')
+      var $this = $(this);
+      var data = $this.data('alert');
       if (!data) $this.data('alert', (data = new Alert(this)))
       if (typeof option == 'string') data[option].call($this)
-    })
+    });
   }
 
   $.fn.alert.Constructor = Alert
 
 
- /* ALERT NO CONFLICT
-  * ================= */
+  /* ALERT NO CONFLICT
+   * ================= */
 
   $.fn.alert.noConflict = function () {
     $.fn.alert = old
@@ -290,20 +290,19 @@
   }
 
 
- /* ALERT DATA-API
-  * ============== */
+  /* ALERT DATA-API
+   * ============== */
 
   $(document).on('click.alert.data-api', dismiss, Alert.prototype.close)
+})(window.jQuery);
 
-}(window.jQuery);
 
-
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-button',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-button',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ============================================================
  * bootstrap-button.js v2.3.0
@@ -325,7 +324,7 @@
  * ============================================================ */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -339,10 +338,10 @@
   }
 
   Button.prototype.setState = function (state) {
-    var d = 'disabled'
-      , $el = this.$element
-      , data = $el.data()
-      , val = $el.is('input') ? 'val' : 'html'
+    var d = 'disabled';
+    var $el = this.$element;
+    var data = $el.data();
+    var val = $el.is('input') ? 'val' : 'html';
 
     state = state + 'Text'
     data.resetText || $el.data('resetText', $el[val]())
@@ -350,7 +349,7 @@
     $el[val](data[state] || this.options[state])
 
     // push to event loop to allow forms to submit
-    setTimeout(function () {
+    setTimeout(() => {
       state == 'loadingText' ?
         $el.addClass(d).attr(d, d) :
         $el.removeClass(d).removeAttr(d)
@@ -375,13 +374,13 @@
 
   $.fn.button = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('button')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('button');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('button', (data = new Button(this, options)))
       if (option == 'toggle') data.toggle()
       else if (option) data.setState(option)
-    })
+    });
   }
 
   $.fn.button.defaults = {
@@ -403,21 +402,21 @@
  /* BUTTON DATA-API
   * =============== */
 
-  $(document).on('click.button.data-api', '[data-toggle^=button]', function (e) {
+  $(document).on('click.button.data-api', '[data-toggle^=button]', e => {
     var $btn = $(e.target)
     if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
     $btn.button('toggle')
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-carousel',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-carousel',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ==========================================================
  * bootstrap-carousel.js v2.3.0
@@ -439,7 +438,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -458,7 +457,7 @@
 
   Carousel.prototype = {
 
-    cycle: function (e) {
+    cycle(e) {
       if (!e) this.paused = false
       if (this.interval) clearInterval(this.interval);
       this.options.interval
@@ -467,32 +466,32 @@
       return this
     }
 
-  , getActiveIndex: function () {
+  , getActiveIndex() {
       this.$active = this.$element.find('.item.active')
       this.$items = this.$active.parent().children()
       return this.$items.index(this.$active)
     }
 
-  , to: function (pos) {
-      var activeIndex = this.getActiveIndex()
-        , that = this
+  , to(pos) {
+    var activeIndex = this.getActiveIndex();
+    var that = this;
 
-      if (pos > (this.$items.length - 1) || pos < 0) return
+    if (pos > (this.$items.length - 1) || pos < 0) return
 
-      if (this.sliding) {
-        return this.$element.one('slid', function () {
-          that.to(pos)
-        })
-      }
-
-      if (activeIndex == pos) {
-        return this.pause().cycle()
-      }
-
-      return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+    if (this.sliding) {
+      return this.$element.one('slid', () => {
+        that.to(pos)
+      });
     }
 
-  , pause: function (e) {
+    if (activeIndex == pos) {
+      return this.pause().cycle()
+    }
+
+    return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+  }
+
+  , pause(e) {
       if (!e) this.paused = true
       if (this.$element.find('.next, .prev').length && $.support.transition.end) {
         this.$element.trigger($.support.transition.end)
@@ -503,72 +502,72 @@
       return this
     }
 
-  , next: function () {
+  , next() {
       if (this.sliding) return
       return this.slide('next')
     }
 
-  , prev: function () {
+  , prev() {
       if (this.sliding) return
       return this.slide('prev')
     }
 
-  , slide: function (type, next) {
-      var $active = this.$element.find('.item.active')
-        , $next = next || $active[type]()
-        , isCycling = this.interval
-        , direction = type == 'next' ? 'left' : 'right'
-        , fallback  = type == 'next' ? 'first' : 'last'
-        , that = this
-        , e
+  , slide(type, next) {
+    var $active = this.$element.find('.item.active');
+    var $next = next || $active[type]();
+    var isCycling = this.interval;
+    var direction = type == 'next' ? 'left' : 'right';
+    var fallback  = type == 'next' ? 'first' : 'last';
+    var that = this;
+    var e;
 
-      this.sliding = true
+    this.sliding = true
 
-      isCycling && this.pause()
+    isCycling && this.pause()
 
-      $next = $next.length ? $next : this.$element.find('.item')[fallback]()
+    $next = $next.length ? $next : this.$element.find('.item')[fallback]()
 
-      e = $.Event('slide', {
-        relatedTarget: $next[0]
-      , direction: direction
+    e = $.Event('slide', {
+      relatedTarget: $next[0]
+    , direction
+    })
+
+    if ($next.hasClass('active')) return
+
+    if (this.$indicators.length) {
+      this.$indicators.find('.active').removeClass('active')
+      this.$element.one('slid', () => {
+        var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
+        $nextIndicator && $nextIndicator.addClass('active')
       })
-
-      if ($next.hasClass('active')) return
-
-      if (this.$indicators.length) {
-        this.$indicators.find('.active').removeClass('active')
-        this.$element.one('slid', function () {
-          var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
-          $nextIndicator && $nextIndicator.addClass('active')
-        })
-      }
-
-      if ($.support.transition && this.$element.hasClass('slide')) {
-        this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
-        $next.addClass(type)
-        $next[0].offsetWidth // force reflow
-        $active.addClass(direction)
-        $next.addClass(direction)
-        this.$element.one($.support.transition.end, function () {
-          $next.removeClass([type, direction].join(' ')).addClass('active')
-          $active.removeClass(['active', direction].join(' '))
-          that.sliding = false
-          setTimeout(function () { that.$element.trigger('slid') }, 0)
-        })
-      } else {
-        this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
-        $active.removeClass('active')
-        $next.addClass('active')
-        this.sliding = false
-        this.$element.trigger('slid')
-      }
-
-      isCycling && this.cycle()
-
-      return this
     }
+
+    if ($.support.transition && this.$element.hasClass('slide')) {
+      this.$element.trigger(e)
+      if (e.isDefaultPrevented()) return
+      $next.addClass(type)
+      $next[0].offsetWidth // force reflow
+      $active.addClass(direction)
+      $next.addClass(direction)
+      this.$element.one($.support.transition.end, () => {
+        $next.removeClass([type, direction].join(' ')).addClass('active')
+        $active.removeClass(['active', direction].join(' '))
+        that.sliding = false
+        setTimeout(() => { that.$element.trigger('slid') }, 0)
+      })
+    } else {
+      this.$element.trigger(e)
+      if (e.isDefaultPrevented()) return
+      $active.removeClass('active')
+      $next.addClass('active')
+      this.sliding = false
+      this.$element.trigger('slid')
+    }
+
+    isCycling && this.cycle()
+
+    return this
+  }
 
   }
 
@@ -580,15 +579,15 @@
 
   $.fn.carousel = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('carousel')
-        , options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
-        , action = typeof option == 'string' ? option : options.slide
+      var $this = $(this);
+      var data = $this.data('carousel');
+      var options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option);
+      var action = typeof option == 'string' ? option : options.slide;
       if (!data) $this.data('carousel', (data = new Carousel(this, options)))
       if (typeof option == 'number') data.to(option)
       else if (action) data[action]()
       else if (options.interval) data.pause().cycle()
-    })
+    });
   }
 
   $.fn.carousel.defaults = {
@@ -611,10 +610,14 @@
   * ================= */
 
   $(document).on('click.carousel.data-api', '[data-slide], [data-slide-to]', function (e) {
-    var $this = $(this), href
-      , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
-      , options = $.extend({}, $target.data(), $this.data())
-      , slideIndex
+    var $this = $(this);
+    var href;
+
+    var //strip for ie7
+    $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, ''));
+
+    var options = $.extend({}, $target.data(), $this.data());
+    var slideIndex;
 
     $target.carousel(options)
 
@@ -625,15 +628,15 @@
     e.preventDefault()
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-collapse',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-collapse',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* =============================================================
  * bootstrap-collapse.js v2.3.0
@@ -655,7 +658,7 @@
  * ============================================================ */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -678,36 +681,36 @@
 
     constructor: Collapse
 
-  , dimension: function () {
+  , dimension() {
       var hasWidth = this.$element.hasClass('width')
       return hasWidth ? 'width' : 'height'
     }
 
-  , show: function () {
-      var dimension
-        , scroll
-        , actives
-        , hasData
+  , show() {
+    var dimension;
+    var scroll;
+    var actives;
+    var hasData;
 
-      if (this.transitioning || this.$element.hasClass('in')) return
+    if (this.transitioning || this.$element.hasClass('in')) return
 
-      dimension = this.dimension()
-      scroll = $.camelCase(['scroll', dimension].join('-'))
-      actives = this.$parent && this.$parent.find('> .accordion-group > .in')
+    dimension = this.dimension()
+    scroll = $.camelCase(['scroll', dimension].join('-'))
+    actives = this.$parent && this.$parent.find('> .accordion-group > .in')
 
-      if (actives && actives.length) {
-        hasData = actives.data('collapse')
-        if (hasData && hasData.transitioning) return
-        actives.collapse('hide')
-        hasData || actives.data('collapse', null)
-      }
-
-      this.$element[dimension](0)
-      this.transition('addClass', $.Event('show'), 'shown')
-      $.support.transition && this.$element[dimension](this.$element[0][scroll])
+    if (actives && actives.length) {
+      hasData = actives.data('collapse')
+      if (hasData && hasData.transitioning) return
+      actives.collapse('hide')
+      hasData || actives.data('collapse', null)
     }
 
-  , hide: function () {
+    this.$element[dimension](0)
+    this.transition('addClass', $.Event('show'), 'shown')
+    $.support.transition && this.$element[dimension](this.$element[0][scroll])
+  }
+
+  , hide() {
       var dimension
       if (this.transitioning || !this.$element.hasClass('in')) return
       dimension = this.dimension()
@@ -716,7 +719,7 @@
       this.$element[dimension](0)
     }
 
-  , reset: function (size) {
+  , reset(size) {
       var dimension = this.dimension()
 
       this.$element
@@ -729,28 +732,29 @@
       return this
     }
 
-  , transition: function (method, startEvent, completeEvent) {
-      var that = this
-        , complete = function () {
-            if (startEvent.type == 'show') that.reset()
-            that.transitioning = 0
-            that.$element.trigger(completeEvent)
-          }
+  , transition(method, startEvent, completeEvent) {
+    var that = this;
 
-      this.$element.trigger(startEvent)
+    var complete = () => {
+          if (startEvent.type == 'show') that.reset()
+          that.transitioning = 0
+          that.$element.trigger(completeEvent)
+        };
 
-      if (startEvent.isDefaultPrevented()) return
+    this.$element.trigger(startEvent)
 
-      this.transitioning = 1
+    if (startEvent.isDefaultPrevented()) return
 
-      this.$element[method]('in')
+    this.transitioning = 1
 
-      $.support.transition && this.$element.hasClass('collapse') ?
-        this.$element.one($.support.transition.end, complete) :
-        complete()
-    }
+    this.$element[method]('in')
 
-  , toggle: function () {
+    $.support.transition && this.$element.hasClass('collapse') ?
+      this.$element.one($.support.transition.end, complete) :
+      complete()
+  }
+
+  , toggle() {
       this[this.$element.hasClass('in') ? 'hide' : 'show']()
     }
 
@@ -764,12 +768,12 @@
 
   $.fn.collapse = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('collapse')
-        , options = $.extend({}, $.fn.collapse.defaults, $this.data(), typeof option == 'object' && option)
+      var $this = $(this);
+      var data = $this.data('collapse');
+      var options = $.extend({}, $.fn.collapse.defaults, $this.data(), typeof option == 'object' && option);
       if (!data) $this.data('collapse', (data = new Collapse(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.collapse.defaults = {
@@ -792,24 +796,28 @@
   * ================= */
 
   $(document).on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
-    var $this = $(this), href
-      , target = $this.attr('data-target')
+    var $this = $(this);
+    var href;
+
+    var //strip for ie7
+    target = $this.attr('data-target')
         || e.preventDefault()
-        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
-      , option = $(target).data('collapse') ? 'toggle' : $this.data()
+        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '');
+
+    var option = $(target).data('collapse') ? 'toggle' : $this.data();
     $this[$(target).hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
     $(target).collapse(option)
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-dropdown',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-dropdown',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ============================================================
  * bootstrap-dropdown.js v2.3.0
@@ -831,88 +839,88 @@
  * ============================================================ */
 
 
-!function ($) {
+!($ => {
+  // jshint ;_;
 
-   // jshint ;_;
 
+  /* DROPDOWN CLASS DEFINITION
+   * ========================= */
 
- /* DROPDOWN CLASS DEFINITION
-  * ========================= */
+  var toggle = '[data-toggle=dropdown]';
 
-  var toggle = '[data-toggle=dropdown]'
-    , Dropdown = function (element) {
+  var Dropdown = function (element) {
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
+        $('html').on('click.dropdown.data-api', () => {
           $el.parent().removeClass('open')
         })
-      }
+      };
 
   Dropdown.prototype = {
 
     constructor: Dropdown
 
-  , toggle: function (e) {
-      var $this = $(this)
-        , $parent
-        , isActive
+  , toggle(e) {
+    var $this = $(this);
+    var $parent;
+    var isActive;
 
-      if ($this.is('.disabled, :disabled')) return
+    if ($this.is('.disabled, :disabled')) return
 
-      $parent = getParent($this)
+    $parent = getParent($this)
 
-      isActive = $parent.hasClass('open')
+    isActive = $parent.hasClass('open')
 
-      clearMenus()
+    clearMenus()
 
-      if (!isActive) {
-        $parent.toggleClass('open')
-      }
-
-      $this.focus()
-
-      return false
+    if (!isActive) {
+      $parent.toggleClass('open')
     }
 
-  , keydown: function (e) {
-      var $this
-        , $items
-        , $active
-        , $parent
-        , isActive
-        , index
+    $this.focus()
 
-      if (!/(38|40|27)/.test(e.keyCode)) return
+    return false
+  }
 
-      $this = $(this)
+  , keydown(e) {
+    var $this;
+    var $items;
+    var $active;
+    var $parent;
+    var isActive;
+    var index;
 
-      e.preventDefault()
-      e.stopPropagation()
+    if (!/(38|40|27)/.test(e.keyCode)) return
 
-      if ($this.is('.disabled, :disabled')) return
+    $this = $(this)
 
-      $parent = getParent($this)
+    e.preventDefault()
+    e.stopPropagation()
 
-      isActive = $parent.hasClass('open')
+    if ($this.is('.disabled, :disabled')) return
 
-      if (!isActive || (isActive && e.keyCode == 27)) {
-        if (e.which == 27) $parent.find(toggle).focus()
-        return $this.click()
-      }
+    $parent = getParent($this)
 
-      $items = $('[role=menu] li:not(.divider):visible a', $parent)
+    isActive = $parent.hasClass('open')
 
-      if (!$items.length) return
-
-      index = $items.index($items.filter(':focus'))
-
-      if (e.keyCode == 38 && index > 0) index--                                        // up
-      if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
-      if (!~index) index = 0
-
-      $items
-        .eq(index)
-        .focus()
+    if (!isActive || (isActive && e.keyCode == 27)) {
+      if (e.which == 27) $parent.find(toggle).focus()
+      return $this.click()
     }
+
+    $items = $('[role=menu] li:not(.divider):visible a', $parent)
+
+    if (!$items.length) return
+
+    index = $items.index($items.filter(':focus'))
+
+    if (e.keyCode == 38 && index > 0) index--                                        // up
+    if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
+    if (!~index) index = 0
+
+    $items
+      .eq(index)
+      .focus()
+  }
 
   }
 
@@ -923,8 +931,8 @@
   }
 
   function getParent($this) {
-    var selector = $this.attr('data-target')
-      , $parent
+    var selector = $this.attr('data-target');
+    var $parent;
 
     if (!selector) {
       selector = $this.attr('href')
@@ -946,18 +954,18 @@
 
   $.fn.dropdown = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('dropdown')
+      var $this = $(this);
+      var data = $this.data('dropdown');
       if (!data) $this.data('dropdown', (data = new Dropdown(this)))
       if (typeof option == 'string') data[option].call($this)
-    })
+    });
   }
 
   $.fn.dropdown.Constructor = Dropdown
 
 
- /* DROPDOWN NO CONFLICT
-  * ==================== */
+  /* DROPDOWN NO CONFLICT
+   * ==================== */
 
   $.fn.dropdown.noConflict = function () {
     $.fn.dropdown = old
@@ -970,21 +978,20 @@
 
   $(document)
     .on('click.dropdown.data-api', clearMenus)
-    .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('.dropdown-menu', function (e) { e.stopPropagation() })
+    .on('click.dropdown.data-api', '.dropdown form', e => { e.stopPropagation() })
+    .on('.dropdown-menu', e => { e.stopPropagation() })
     .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-
-}(window.jQuery);
-
+})(window.jQuery);
 
 
-}.call(root));
+
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-modal',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-modal',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* =========================================================
  * bootstrap-modal.js v2.3.0
@@ -1006,7 +1013,7 @@
  * ========================================================= */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -1025,49 +1032,49 @@
 
       constructor: Modal
 
-    , toggle: function () {
+    , toggle() {
         return this[!this.isShown ? 'show' : 'hide']()
       }
 
-    , show: function () {
-        var that = this
-          , e = $.Event('show')
+    , show() {
+    var that = this;
+    var e = $.Event('show');
 
-        this.$element.trigger(e)
+    this.$element.trigger(e)
 
-        if (this.isShown || e.isDefaultPrevented()) return
+    if (this.isShown || e.isDefaultPrevented()) return
 
-        this.isShown = true
+    this.isShown = true
 
-        this.escape()
+    this.escape()
 
-        this.backdrop(function () {
-          var transition = $.support.transition && that.$element.hasClass('fade')
+    this.backdrop(() => {
+      var transition = $.support.transition && that.$element.hasClass('fade')
 
-          if (!that.$element.parent().length) {
-            that.$element.appendTo(document.body) //don't move modals dom position
-          }
-
-          that.$element.show()
-
-          if (transition) {
-            that.$element[0].offsetWidth // force reflow
-          }
-
-          that.$element
-            .addClass('in')
-            .attr('aria-hidden', false)
-
-          that.enforceFocus()
-
-          transition ?
-            that.$element.one($.support.transition.end, function () { that.$element.focus().trigger('shown') }) :
-            that.$element.focus().trigger('shown')
-
-        })
+      if (!that.$element.parent().length) {
+        that.$element.appendTo(document.body) //don't move modals dom position
       }
 
-    , hide: function (e) {
+      that.$element.show()
+
+      if (transition) {
+        that.$element[0].offsetWidth // force reflow
+      }
+
+      that.$element
+        .addClass('in')
+        .attr('aria-hidden', false)
+
+      that.enforceFocus()
+
+      transition ?
+        that.$element.one($.support.transition.end, () => { that.$element.focus().trigger('shown') }) :
+        that.$element.focus().trigger('shown')
+
+    })
+  }
+
+    , hide(e) {
         e && e.preventDefault()
 
         var that = this
@@ -1093,19 +1100,19 @@
           this.hideModal()
       }
 
-    , enforceFocus: function () {
+    , enforceFocus() {
         var that = this
-        $(document).on('focusin.modal', function (e) {
+        $(document).on('focusin.modal', e => {
           if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
             that.$element.focus()
           }
         })
       }
 
-    , escape: function () {
+    , escape() {
         var that = this
         if (this.isShown && this.options.keyboard) {
-          this.$element.on('keyup.dismiss.modal', function ( e ) {
+          this.$element.on('keyup.dismiss.modal', e => {
             e.which == 27 && that.hide()
           })
         } else if (!this.isShown) {
@@ -1113,70 +1120,71 @@
         }
       }
 
-    , hideWithTransition: function () {
-        var that = this
-          , timeout = setTimeout(function () {
-              that.$element.off($.support.transition.end)
-              that.hideModal()
-            }, 500)
+    , hideWithTransition() {
+    var that = this;
 
-        this.$element.one($.support.transition.end, function () {
-          clearTimeout(timeout)
+    var timeout = setTimeout(() => {
+          that.$element.off($.support.transition.end)
           that.hideModal()
-        })
-      }
+        }, 500);
 
-    , hideModal: function () {
+    this.$element.one($.support.transition.end, () => {
+      clearTimeout(timeout)
+      that.hideModal()
+    })
+  }
+
+    , hideModal() {
         var that = this
         this.$element.hide()
-        this.backdrop(function () {
+        this.backdrop(() => {
           that.removeBackdrop()
           that.$element.trigger('hidden')
         })
       }
 
-    , removeBackdrop: function () {
+    , removeBackdrop() {
         this.$backdrop.remove()
         this.$backdrop = null
       }
 
-    , backdrop: function (callback) {
-        var that = this
-          , animate = this.$element.hasClass('fade') ? 'fade' : ''
+    , backdrop(callback) {
+    var that = this;
+    var animate = this.$element.hasClass('fade') ? 'fade' : '';
 
-        if (this.isShown && this.options.backdrop) {
-          var doAnimate = $.support.transition && animate
+    if (this.isShown && this.options.backdrop) {
+      var doAnimate = $.support.transition && animate
 
-          this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
-            .appendTo(document.body)
+      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+        .appendTo(document.body)
 
-          this.$backdrop.click(
-            this.options.backdrop == 'static' ?
-              $.proxy(this.$element[0].focus, this.$element[0])
-            : $.proxy(this.hide, this)
-          )
+      this.$backdrop.click(
+        this.options.backdrop == 'static' ?
+          $.proxy(this.$element[0].focus, this.$element[0])
+        : $.proxy(this.hide, this)
+      )
 
-          if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
 
-          this.$backdrop.addClass('in')
+      this.$backdrop.addClass('in')
 
-          if (!callback) return
+      if (!callback) return
 
-          doAnimate ?
-            this.$backdrop.one($.support.transition.end, callback) :
-            callback()
+      doAnimate ?
+        this.$backdrop.one($.support.transition.end, callback) :
+        callback()
 
-        } else if (!this.isShown && this.$backdrop) {
-          this.$backdrop.removeClass('in')
+    } else if (!this.isShown && this.$backdrop) {
+      this.$backdrop.removeClass('in')
 
-          $.support.transition && this.$element.hasClass('fade')?
-            this.$backdrop.one($.support.transition.end, callback) :
-            callback()
+      $.support.transition && this.$element.hasClass('fade')?
+        this.$backdrop.one($.support.transition.end, callback) :
+        callback()
 
-        } else if (callback) {
-          callback()
-        }
-      }
+    } else if (callback) {
+      callback()
+    }
+  }
   }
 
 
@@ -1187,13 +1195,13 @@
 
   $.fn.modal = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('modal')
-        , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
+      var $this = $(this);
+      var data = $this.data('modal');
+      var options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option);
       if (!data) $this.data('modal', (data = new Modal(this, options)))
       if (typeof option == 'string') data[option]()
       else if (options.show) data.show()
-    })
+    });
   }
 
   $.fn.modal.defaults = {
@@ -1218,30 +1226,33 @@
   * ============== */
 
   $(document).on('click.modal.data-api', '[data-toggle="modal"]', function (e) {
-    var $this = $(this)
-      , href = $this.attr('href')
-      , $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-      , option = $target.data('modal') ? 'toggle' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data())
+    var $this = $(this);
+    var href = $this.attr('href');
+
+    var //strip for ie7
+    $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));
+
+    var option = $target.data('modal') ? 'toggle' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data());
 
     e.preventDefault()
 
     $target
       .modal(option)
-      .one('hide', function () {
+      .one('hide', () => {
         $this.focus()
       })
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-tooltip',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-tooltip',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ===========================================================
  * bootstrap-tooltip.js v2.3.0
@@ -1264,7 +1275,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -1280,38 +1291,38 @@
 
     constructor: Tooltip
 
-  , init: function (type, element, options) {
-      var eventIn
-        , eventOut
-        , triggers
-        , trigger
-        , i
+  , init(type, element, options) {
+    var eventIn;
+    var eventOut;
+    var triggers;
+    var trigger;
+    var i;
 
-      this.type = type
-      this.$element = $(element)
-      this.options = this.getOptions(options)
-      this.enabled = true
+    this.type = type
+    this.$element = $(element)
+    this.options = this.getOptions(options)
+    this.enabled = true
 
-      triggers = this.options.trigger.split(' ')
+    triggers = this.options.trigger.split(' ')
 
-      for (i = triggers.length; i--;) {
-        trigger = triggers[i]
-        if (trigger == 'click') {
-          this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
-        } else if (trigger != 'manual') {
-          eventIn = trigger == 'hover' ? 'mouseenter' : 'focus'
-          eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
-          this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
-          this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
-        }
+    for (i = triggers.length; i--;) {
+      trigger = triggers[i]
+      if (trigger == 'click') {
+        this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
+      } else if (trigger != 'manual') {
+        eventIn = trigger == 'hover' ? 'mouseenter' : 'focus'
+        eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
+        this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
+        this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
       }
-
-      this.options.selector ?
-        (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
-        this.fixTitle()
     }
 
-  , getOptions: function (options) {
+    this.options.selector ?
+      (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
+      this.fixTitle()
+  }
+
+  , getOptions(options) {
       options = $.extend({}, $.fn[this.type].defaults, this.$element.data(), options)
 
       if (options.delay && typeof options.delay == 'number') {
@@ -1324,181 +1335,181 @@
       return options
     }
 
-  , enter: function (e) {
+  , enter(e) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
       if (!self.options.delay || !self.options.delay.show) return self.show()
 
       clearTimeout(this.timeout)
       self.hoverState = 'in'
-      this.timeout = setTimeout(function() {
+      this.timeout = setTimeout(() => {
         if (self.hoverState == 'in') self.show()
       }, self.options.delay.show)
     }
 
-  , leave: function (e) {
+  , leave(e) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
       if (this.timeout) clearTimeout(this.timeout)
       if (!self.options.delay || !self.options.delay.hide) return self.hide()
 
       self.hoverState = 'out'
-      this.timeout = setTimeout(function() {
+      this.timeout = setTimeout(() => {
         if (self.hoverState == 'out') self.hide()
       }, self.options.delay.hide)
     }
 
-  , show: function () {
-      var $tip
-        , pos
-        , actualWidth
-        , actualHeight
-        , placement
-        , tp
-        , e = $.Event('show')
+  , show() {
+    var $tip;
+    var pos;
+    var actualWidth;
+    var actualHeight;
+    var placement;
+    var tp;
+    var e = $.Event('show');
 
-      if (this.hasContent() && this.enabled) {
-        this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
-        $tip = this.tip()
-        this.setContent()
+    if (this.hasContent() && this.enabled) {
+      this.$element.trigger(e)
+      if (e.isDefaultPrevented()) return
+      $tip = this.tip()
+      this.setContent()
 
-        if (this.options.animation) {
-          $tip.addClass('fade')
-        }
-
-        placement = typeof this.options.placement == 'function' ?
-          this.options.placement.call(this, $tip[0], this.$element[0]) :
-          this.options.placement
-
-        $tip
-          .detach()
-          .css({ top: 0, left: 0, display: 'block' })
-
-        this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
-
-        pos = this.getPosition()
-
-        actualWidth = $tip[0].offsetWidth
-        actualHeight = $tip[0].offsetHeight
-
-        switch (placement) {
-          case 'bottom':
-            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
-            break
-          case 'top':
-            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
-            break
-          case 'left':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
-            break
-          case 'right':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
-            break
-        }
-
-        this.applyPlacement(tp, placement)
-        this.$element.trigger('shown')
+      if (this.options.animation) {
+        $tip.addClass('fade')
       }
-    }
 
-  , applyPlacement: function(offset, placement){
-      var $tip = this.tip()
-        , width = $tip[0].offsetWidth
-        , height = $tip[0].offsetHeight
-        , actualWidth
-        , actualHeight
-        , delta
-        , replace
+      placement = typeof this.options.placement == 'function' ?
+        this.options.placement.call(this, $tip[0], this.$element[0]) :
+        this.options.placement
 
       $tip
-        .offset(offset)
-        .addClass(placement)
-        .addClass('in')
+        .detach()
+        .css({ top: 0, left: 0, display: 'block' })
+
+      this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+
+      pos = this.getPosition()
 
       actualWidth = $tip[0].offsetWidth
       actualHeight = $tip[0].offsetHeight
 
-      if (placement == 'top' && actualHeight != height) {
-        offset.top = offset.top + height - actualHeight
-        replace = true
+      switch (placement) {
+        case 'bottom':
+          tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
+          break
+        case 'top':
+          tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
+          break
+        case 'left':
+          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
+          break
+        case 'right':
+          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
+          break
       }
 
-      if (placement == 'bottom' || placement == 'top') {
-        delta = 0
+      this.applyPlacement(tp, placement)
+      this.$element.trigger('shown')
+    }
+  }
 
-        if (offset.left < 0){
-          delta = offset.left * -2
-          offset.left = 0
-          $tip.offset(offset)
-          actualWidth = $tip[0].offsetWidth
-          actualHeight = $tip[0].offsetHeight
-        }
+  , applyPlacement(offset, placement) {
+    var $tip = this.tip();
+    var width = $tip[0].offsetWidth;
+    var height = $tip[0].offsetHeight;
+    var actualWidth;
+    var actualHeight;
+    var delta;
+    var replace;
 
-        this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
-      } else {
-        this.replaceArrow(actualHeight - height, actualHeight, 'top')
-      }
+    $tip
+      .offset(offset)
+      .addClass(placement)
+      .addClass('in')
 
-      if (replace) $tip.offset(offset)
+    actualWidth = $tip[0].offsetWidth
+    actualHeight = $tip[0].offsetHeight
+
+    if (placement == 'top' && actualHeight != height) {
+      offset.top = offset.top + height - actualHeight
+      replace = true
     }
 
-  , replaceArrow: function(delta, dimension, position){
+    if (placement == 'bottom' || placement == 'top') {
+      delta = 0
+
+      if (offset.left < 0){
+        delta = offset.left * -2
+        offset.left = 0
+        $tip.offset(offset)
+        actualWidth = $tip[0].offsetWidth
+        actualHeight = $tip[0].offsetHeight
+      }
+
+      this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
+    } else {
+      this.replaceArrow(actualHeight - height, actualHeight, 'top')
+    }
+
+    if (replace) $tip.offset(offset)
+  }
+
+  , replaceArrow(delta, dimension, position) {
       this
         .arrow()
         .css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
     }
 
-  , setContent: function () {
-      var $tip = this.tip()
-        , title = this.getTitle()
+  , setContent() {
+    var $tip = this.tip();
+    var title = this.getTitle();
 
-      $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
-      $tip.removeClass('fade in top bottom left right')
-    }
+    $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+    $tip.removeClass('fade in top bottom left right')
+  }
 
-  , hide: function () {
-      var that = this
-        , $tip = this.tip()
-        , e = $.Event('hide')
+  , hide() {
+    var that = this;
+    var $tip = this.tip();
+    var e = $.Event('hide');
 
-      this.$element.trigger(e)
-      if (e.isDefaultPrevented()) return
+    this.$element.trigger(e)
+    if (e.isDefaultPrevented()) return
 
-      $tip.removeClass('in')
+    $tip.removeClass('in')
 
-      function removeWithAnimation() {
-        var timeout = setTimeout(function () {
-          $tip.off($.support.transition.end).detach()
-        }, 500)
+    function removeWithAnimation() {
+      var timeout = setTimeout(() => {
+        $tip.off($.support.transition.end).detach()
+      }, 500)
 
-        $tip.one($.support.transition.end, function () {
-          clearTimeout(timeout)
-          $tip.detach()
-        })
-      }
-
-      $.support.transition && this.$tip.hasClass('fade') ?
-        removeWithAnimation() :
+      $tip.one($.support.transition.end, () => {
+        clearTimeout(timeout)
         $tip.detach()
-
-      this.$element.trigger('hidden')
-
-      return this
+      })
     }
 
-  , fixTitle: function () {
+    $.support.transition && this.$tip.hasClass('fade') ?
+      removeWithAnimation() :
+      $tip.detach()
+
+    this.$element.trigger('hidden')
+
+    return this
+  }
+
+  , fixTitle() {
       var $e = this.$element
       if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
         $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
       }
     }
 
-  , hasContent: function () {
+  , hasContent() {
       return this.getTitle()
     }
 
-  , getPosition: function () {
+  , getPosition() {
       var el = this.$element[0]
       return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
         width: el.offsetWidth
@@ -1506,26 +1517,26 @@
       }, this.$element.offset())
     }
 
-  , getTitle: function () {
-      var title
-        , $e = this.$element
-        , o = this.options
+  , getTitle() {
+    var title;
+    var $e = this.$element;
+    var o = this.options;
 
-      title = $e.attr('data-original-title')
-        || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
+    title = $e.attr('data-original-title')
+      || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
 
-      return title
-    }
+    return title
+  }
 
-  , tip: function () {
+  , tip() {
       return this.$tip = this.$tip || $(this.options.template)
     }
 
-  , arrow: function(){
+  , arrow() {
       return this.$arrow = this.$arrow || this.tip().find(".tooltip-arrow")
     }
 
-  , validate: function () {
+  , validate() {
       if (!this.$element[0].parentNode) {
         this.hide()
         this.$element = null
@@ -1533,24 +1544,24 @@
       }
     }
 
-  , enable: function () {
+  , enable() {
       this.enabled = true
     }
 
-  , disable: function () {
+  , disable() {
       this.enabled = false
     }
 
-  , toggleEnabled: function () {
+  , toggleEnabled() {
       this.enabled = !this.enabled
     }
 
-  , toggle: function (e) {
+  , toggle(e) {
       var self = e ? $(e.currentTarget)[this.type](this._options).data(this.type) : this
       self.tip().hasClass('in') ? self.hide() : self.show()
     }
 
-  , destroy: function () {
+  , destroy() {
       this.hide().$element.off('.' + this.type).removeData(this.type)
     }
 
@@ -1564,12 +1575,12 @@
 
   $.fn.tooltip = function ( option ) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('tooltip')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('tooltip');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('tooltip', (data = new Tooltip(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.tooltip.Constructor = Tooltip
@@ -1595,16 +1606,16 @@
     return this
   }
 
-}(window.jQuery);
+})(window.jQuery);
 
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-popover',['bootstrap/bootstrap-transition','bootstrap/bootstrap-tooltip'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-popover',['bootstrap/bootstrap-transition','bootstrap/bootstrap-tooltip'], () => { ((() => {
 
 /* ===========================================================
  * bootstrap-popover.js v2.3.0
@@ -1626,7 +1637,7 @@
  * =========================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -1646,40 +1657,40 @@
 
     constructor: Popover
 
-  , setContent: function () {
-      var $tip = this.tip()
-        , title = this.getTitle()
-        , content = this.getContent()
+  , setContent() {
+    var $tip = this.tip();
+    var title = this.getTitle();
+    var content = this.getContent();
 
-      $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-      $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
+    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+    $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
 
-      $tip.removeClass('fade top bottom left right in')
-    }
+    $tip.removeClass('fade top bottom left right in')
+  }
 
-  , hasContent: function () {
+  , hasContent() {
       return this.getTitle() || this.getContent()
     }
 
-  , getContent: function () {
-      var content
-        , $e = this.$element
-        , o = this.options
+  , getContent() {
+    var content;
+    var $e = this.$element;
+    var o = this.options;
 
-      content = (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
-        || $e.attr('data-content')
+    content = (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
+      || $e.attr('data-content')
 
-      return content
-    }
+    return content
+  }
 
-  , tip: function () {
+  , tip() {
       if (!this.$tip) {
         this.$tip = $(this.options.template)
       }
       return this.$tip
     }
 
-  , destroy: function () {
+  , destroy() {
       this.hide().$element.off('.' + this.type).removeData(this.type)
     }
 
@@ -1693,12 +1704,12 @@
 
   $.fn.popover = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('popover')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('popover');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('popover', (data = new Popover(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.popover.Constructor = Popover
@@ -1719,16 +1730,16 @@
     return this
   }
 
-}(window.jQuery);
+})(window.jQuery);
 
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-scrollspy',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-scrollspy',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* =============================================================
  * bootstrap-scrollspy.js v2.3.0
@@ -1750,7 +1761,7 @@
  * ============================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -1759,9 +1770,9 @@
   * ========================== */
 
   function ScrollSpy(element, options) {
-    var process = $.proxy(this.process, this)
-      , $element = $(element).is('body') ? $(window) : $(element)
-      , href
+    var process = $.proxy(this.process, this);
+    var $element = $(element).is('body') ? $(window) : $(element);
+    var href;
     this.options = $.extend({}, $.fn.scrollspy.defaults, options)
     this.$scrollElement = $element.on('scroll.scroll-spy.data-api', process)
     this.selector = (this.options.target
@@ -1776,76 +1787,76 @@
 
       constructor: ScrollSpy
 
-    , refresh: function () {
-        var self = this
-          , $targets
+    , refresh() {
+    var self = this;
+    var $targets;
 
-        this.offsets = $([])
-        this.targets = $([])
+    this.offsets = $([])
+    this.targets = $([])
 
-        $targets = this.$body
-          .find(this.selector)
-          .map(function () {
-            var $el = $(this)
-              , href = $el.data('target') || $el.attr('href')
-              , $href = /^#\w/.test(href) && $(href)
-            return ( $href
-              && $href.length
-              && [[ $href.position().top + (!$.isWindow(self.$scrollElement.get(0)) && self.$scrollElement.scrollTop()), href ]] ) || null
-          })
-          .sort(function (a, b) { return a[0] - b[0] })
-          .each(function () {
-            self.offsets.push(this[0])
-            self.targets.push(this[1])
-          })
-      }
+    $targets = this.$body
+      .find(this.selector)
+      .map(function () {
+      var $el = $(this);
+      var href = $el.data('target') || $el.attr('href');
+      var $href = /^#\w/.test(href) && $(href);
+      return ( $href
+        && $href.length
+        && [[ $href.position().top + (!$.isWindow(self.$scrollElement.get(0)) && self.$scrollElement.scrollTop()), href ]] ) || null
+    })
+      .sort((a, b) => a[0] - b[0])
+      .each(function () {
+        self.offsets.push(this[0])
+        self.targets.push(this[1])
+      })
+  }
 
-    , process: function () {
-        var scrollTop = this.$scrollElement.scrollTop() + this.options.offset
-          , scrollHeight = this.$scrollElement[0].scrollHeight || this.$body[0].scrollHeight
-          , maxScroll = scrollHeight - this.$scrollElement.height()
-          , offsets = this.offsets
-          , targets = this.targets
-          , activeTarget = this.activeTarget
-          , i
+    , process() {
+    var scrollTop = this.$scrollElement.scrollTop() + this.options.offset;
+    var scrollHeight = this.$scrollElement[0].scrollHeight || this.$body[0].scrollHeight;
+    var maxScroll = scrollHeight - this.$scrollElement.height();
+    var offsets = this.offsets;
+    var targets = this.targets;
+    var activeTarget = this.activeTarget;
+    var i;
 
-        if (scrollTop >= maxScroll) {
-          return activeTarget != (i = targets.last()[0])
-            && this.activate ( i )
-        }
+    if (scrollTop >= maxScroll) {
+      return activeTarget != (i = targets.last()[0])
+        && this.activate ( i )
+    }
 
-        for (i = offsets.length; i--;) {
-          activeTarget != targets[i]
-            && scrollTop >= offsets[i]
-            && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
-            && this.activate( targets[i] )
-        }
-      }
+    for (i = offsets.length; i--;) {
+      activeTarget != targets[i]
+        && scrollTop >= offsets[i]
+        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+        && this.activate( targets[i] )
+    }
+  }
 
-    , activate: function (target) {
-        var active
-          , selector
+    , activate(target) {
+    var active;
+    var selector;
 
-        this.activeTarget = target
+    this.activeTarget = target
 
-        $(this.selector)
-          .parent('.active')
-          .removeClass('active')
+    $(this.selector)
+      .parent('.active')
+      .removeClass('active')
 
-        selector = this.selector
-          + '[data-target="' + target + '"],'
-          + this.selector + '[href="' + target + '"]'
+    selector = this.selector
+      + '[data-target="' + target + '"],'
+      + this.selector + '[href="' + target + '"]'
 
-        active = $(selector)
-          .parent('li')
-          .addClass('active')
+    active = $(selector)
+      .parent('li')
+      .addClass('active')
 
-        if (active.parent('.dropdown-menu').length)  {
-          active = active.closest('li.dropdown').addClass('active')
-        }
+    if (active.parent('.dropdown-menu').length)  {
+      active = active.closest('li.dropdown').addClass('active')
+    }
 
-        active.trigger('activate')
-      }
+    active.trigger('activate')
+  }
 
   }
 
@@ -1857,12 +1868,12 @@
 
   $.fn.scrollspy = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('scrollspy')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('scrollspy');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('scrollspy', (data = new ScrollSpy(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.scrollspy.Constructor = ScrollSpy
@@ -1884,22 +1895,22 @@
  /* SCROLLSPY DATA-API
   * ================== */
 
-  $(window).on('load', function () {
+  $(window).on('load', () => {
     $('[data-spy="scroll"]').each(function () {
       var $spy = $(this)
       $spy.scrollspy($spy.data())
     })
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-tab',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-tab',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* ========================================================
  * bootstrap-tab.js v2.3.0
@@ -1921,7 +1932,7 @@
  * ======================================================== */
 
 
-!function ($) {
+!($ => {
 
    // jshint ;_;
 
@@ -1937,76 +1948,77 @@
 
     constructor: Tab
 
-  , show: function () {
-      var $this = this.element
-        , $ul = $this.closest('ul:not(.dropdown-menu)')
-        , selector = $this.attr('data-target')
-        , previous
-        , $target
-        , e
+  , show() {
+    var $this = this.element;
+    var $ul = $this.closest('ul:not(.dropdown-menu)');
+    var selector = $this.attr('data-target');
+    var previous;
+    var $target;
+    var e;
 
-      if (!selector) {
-        selector = $this.attr('href')
-        selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
-      }
-
-      if ( $this.parent('li').hasClass('active') ) return
-
-      previous = $ul.find('.active:last a')[0]
-
-      e = $.Event('show', {
-        relatedTarget: previous
-      })
-
-      $this.trigger(e)
-
-      if (e.isDefaultPrevented()) return
-
-      $target = $(selector)
-
-      this.activate($this.parent('li'), $ul)
-      this.activate($target, $target.parent(), function () {
-        $this.trigger({
-          type: 'shown'
-        , relatedTarget: previous
-        })
-      })
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
     }
 
-  , activate: function ( element, container, callback) {
-      var $active = container.find('> .active')
-        , transition = callback
-            && $.support.transition
-            && $active.hasClass('fade')
+    if ( $this.parent('li').hasClass('active') ) return
 
-      function next() {
-        $active
-          .removeClass('active')
-          .find('> .dropdown-menu > .active')
-          .removeClass('active')
+    previous = $ul.find('.active:last a')[0]
 
-        element.addClass('active')
+    e = $.Event('show', {
+      relatedTarget: previous
+    })
 
-        if (transition) {
-          element[0].offsetWidth // reflow for transition
-          element.addClass('in')
-        } else {
-          element.removeClass('fade')
-        }
+    $this.trigger(e)
 
-        if ( element.parent('.dropdown-menu') ) {
-          element.closest('li.dropdown').addClass('active')
-        }
+    if (e.isDefaultPrevented()) return
 
-        callback && callback()
+    $target = $(selector)
+
+    this.activate($this.parent('li'), $ul)
+    this.activate($target, $target.parent(), () => {
+      $this.trigger({
+        type: 'shown'
+      , relatedTarget: previous
+      })
+    })
+  }
+
+  , activate(element, container, callback) {
+    var $active = container.find('> .active');
+
+    var transition = callback
+          && $.support.transition
+          && $active.hasClass('fade');
+
+    function next() {
+      $active
+        .removeClass('active')
+        .find('> .dropdown-menu > .active')
+        .removeClass('active')
+
+      element.addClass('active')
+
+      if (transition) {
+        element[0].offsetWidth // reflow for transition
+        element.addClass('in')
+      } else {
+        element.removeClass('fade')
       }
 
-      transition ?
-        $active.one($.support.transition.end, next) :
-        next()
+      if ( element.parent('.dropdown-menu') ) {
+        element.closest('li.dropdown').addClass('active')
+      }
 
-      $active.removeClass('in')
+      callback && callback()
     }
+
+    transition ?
+      $active.one($.support.transition.end, next) :
+      next()
+
+    $active.removeClass('in')
+  }
   }
 
 
@@ -2017,11 +2029,11 @@
 
   $.fn.tab = function ( option ) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('tab')
+      var $this = $(this);
+      var data = $this.data('tab');
       if (!data) $this.data('tab', (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.tab.Constructor = Tab
@@ -2044,15 +2056,15 @@
     $(this).tab('show')
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 //Wrapped in an outer function to preserve global this
-(function (root) { var amdExports; define('bootstrap/bootstrap-typeahead',['bootstrap/bootstrap-transition'], function () { (function () {
+((root => { var amdExports; define('bootstrap/bootstrap-typeahead',['bootstrap/bootstrap-transition'], () => { ((() => {
 
 /* =============================================================
  * bootstrap-typeahead.js v2.3.0
@@ -2074,7 +2086,7 @@
  * ============================================================ */
 
 
-!function($){
+!($ => {
 
    // jshint ;_;
 
@@ -2099,7 +2111,7 @@
 
     constructor: Typeahead
 
-  , select: function () {
+  , select() {
       var val = this.$menu.find('.active').attr('data-value')
       this.$element
         .val(this.updater(val))
@@ -2107,11 +2119,11 @@
       return this.hide()
     }
 
-  , updater: function (item) {
+  , updater(item) {
       return item
     }
 
-  , show: function () {
+  , show() {
       var pos = $.extend({}, this.$element.position(), {
         height: this.$element[0].offsetHeight
       })
@@ -2128,13 +2140,13 @@
       return this
     }
 
-  , hide: function () {
+  , hide() {
       this.$menu.hide()
       this.shown = false
       return this
     }
 
-  , lookup: function (event) {
+  , lookup(event) {
       var items
 
       this.query = this.$element.val()
@@ -2148,12 +2160,10 @@
       return items ? this.process(items) : this
     }
 
-  , process: function (items) {
+  , process(items) {
       var that = this
 
-      items = $.grep(items, function (item) {
-        return that.matcher(item)
-      })
+      items = $.grep(items, item => that.matcher(item))
 
       items = this.sorter(items)
 
@@ -2164,36 +2174,34 @@
       return this.render(items.slice(0, this.options.items)).show()
     }
 
-  , matcher: function (item) {
+  , matcher(item) {
       return ~item.toLowerCase().indexOf(this.query.toLowerCase())
     }
 
-  , sorter: function (items) {
-      var beginswith = []
-        , caseSensitive = []
-        , caseInsensitive = []
-        , item
+  , sorter(items) {
+    var beginswith = [];
+    var caseSensitive = [];
+    var caseInsensitive = [];
+    var item;
 
-      while (item = items.shift()) {
-        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
-        else if (~item.indexOf(this.query)) caseSensitive.push(item)
-        else caseInsensitive.push(item)
-      }
-
-      return beginswith.concat(caseSensitive, caseInsensitive)
+    while (item = items.shift()) {
+      if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+      else if (~item.indexOf(this.query)) caseSensitive.push(item)
+      else caseInsensitive.push(item)
     }
 
-  , highlighter: function (item) {
+    return beginswith.concat(caseSensitive, caseInsensitive)
+  }
+
+  , highlighter(item) {
       var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-      return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-        return '<strong>' + match + '</strong>'
-      })
+      return item.replace(new RegExp('(' + query + ')', 'ig'), ($1, match) => '<strong>' + match + '</strong>');
     }
 
-  , render: function (items) {
+  , render(items) {
       var that = this
 
-      items = $(items).map(function (i, item) {
+      items = $(items).map((i, item) => {
         i = $(that.options.item).attr('data-value', item)
         i.find('a').html(that.highlighter(item))
         return i[0]
@@ -2204,29 +2212,29 @@
       return this
     }
 
-  , next: function (event) {
-      var active = this.$menu.find('.active').removeClass('active')
-        , next = active.next()
+  , next(event) {
+    var active = this.$menu.find('.active').removeClass('active');
+    var next = active.next();
 
-      if (!next.length) {
-        next = $(this.$menu.find('li')[0])
-      }
-
-      next.addClass('active')
+    if (!next.length) {
+      next = $(this.$menu.find('li')[0])
     }
 
-  , prev: function (event) {
-      var active = this.$menu.find('.active').removeClass('active')
-        , prev = active.prev()
+    next.addClass('active')
+  }
 
-      if (!prev.length) {
-        prev = this.$menu.find('li').last()
-      }
+  , prev(event) {
+    var active = this.$menu.find('.active').removeClass('active');
+    var prev = active.prev();
 
-      prev.addClass('active')
+    if (!prev.length) {
+      prev = this.$menu.find('li').last()
     }
 
-  , listen: function () {
+    prev.addClass('active')
+  }
+
+  , listen() {
       this.$element
         .on('focus',    $.proxy(this.focus, this))
         .on('blur',     $.proxy(this.blur, this))
@@ -2243,7 +2251,7 @@
         .on('mouseleave', 'li', $.proxy(this.mouseleave, this))
     }
 
-  , eventSupported: function(eventName) {
+  , eventSupported(eventName) {
       var isSupported = eventName in this.$element
       if (!isSupported) {
         this.$element.setAttribute(eventName, 'return;')
@@ -2252,7 +2260,7 @@
       return isSupported
     }
 
-  , move: function (e) {
+  , move(e) {
       if (!this.shown) return
 
       switch(e.keyCode) {
@@ -2276,17 +2284,17 @@
       e.stopPropagation()
     }
 
-  , keydown: function (e) {
+  , keydown(e) {
       this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
       this.move(e)
     }
 
-  , keypress: function (e) {
+  , keypress(e) {
       if (this.suppressKeyPressRepeat) return
       this.move(e)
     }
 
-  , keyup: function (e) {
+  , keyup(e) {
       switch(e.keyCode) {
         case 40: // down arrow
         case 38: // up arrow
@@ -2314,29 +2322,29 @@
       e.preventDefault()
   }
 
-  , focus: function (e) {
+  , focus(e) {
       this.focused = true
     }
 
-  , blur: function (e) {
+  , blur(e) {
       this.focused = false
       if (!this.mousedover && this.shown) this.hide()
     }
 
-  , click: function (e) {
+  , click(e) {
       e.stopPropagation()
       e.preventDefault()
       this.select()
       this.$element.focus()
     }
 
-  , mouseenter: function (e) {
+  , mouseenter(e) {
       this.mousedover = true
       this.$menu.find('.active').removeClass('active')
       $(e.currentTarget).addClass('active')
     }
 
-  , mouseleave: function (e) {
+  , mouseleave(e) {
       this.mousedover = false
       if (!this.focused && this.shown) this.hide()
     }
@@ -2351,12 +2359,12 @@
 
   $.fn.typeahead = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('typeahead')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('typeahead');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('typeahead', (data = new Typeahead(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.typeahead.defaults = {
@@ -2388,13 +2396,13 @@
     $this.typeahead($this.data())
   })
 
-}(window.jQuery);
+})(window.jQuery);
 
 
 
-}.call(root));
+}).call(root));
     return amdExports;
-}); }(this));
+}); })(this));
 
 /*
  * Fuel UX Checkbox
@@ -2404,7 +2412,7 @@
  * Licensed under the MIT license.
  */
 
-define('fuelux/checkbox',['require','jquery'],function (require) {
+define('fuelux/checkbox',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -2432,7 +2440,7 @@ define('fuelux/checkbox',['require','jquery'],function (require) {
 
 		constructor: Checkbox,
 
-		setState: function ($chk) {
+		setState($chk) {
 			var checked = $chk.is(':checked');
 			var disabled = $chk.is(':disabled');
 
@@ -2448,21 +2456,21 @@ define('fuelux/checkbox',['require','jquery'],function (require) {
 			}
 		},
 
-		enable: function () {
+		enable() {
 			this.$chk.attr('disabled', false);
 			this.$icon.removeClass('disabled');
 		},
 
-		disable: function () {
+		disable() {
 			this.$chk.attr('disabled', true);
 			this.$icon.addClass('disabled');
 		},
 
-		toggle: function () {
+		toggle() {
 			this.$chk.click();
 		},
 
-		itemchecked: function (e) {
+		itemchecked(e) {
 			var chk = $(e.target);
 			this.setState(chk);
 		}
@@ -2493,8 +2501,8 @@ define('fuelux/checkbox',['require','jquery'],function (require) {
 
 	// CHECKBOX DATA-API
 
-	$(function () {
-		$(window).on('load', function () {
+	$(() => {
+		$(window).on('load', () => {
 			//$('i.checkbox').each(function () {
 			$('.checkbox-custom > input[type=checkbox]').each(function () {
 				var $this = $(this);
@@ -2514,7 +2522,7 @@ define('fuelux/checkbox',['require','jquery'],function (require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/util',['require','jquery'],function (require) {
+define('fuelux/util',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -2524,14 +2532,8 @@ define('fuelux/util',['require','jquery'],function (require) {
 	}
 
 	$.expr[':'].fuelTextExactCI = $.expr.createPseudo ?
-		$.expr.createPseudo(function (text) {
-			return function (elem) {
-				return fuelTextExactCI(elem, text);
-			};
-		}) :
-		function (elem, i, match) {
-			return fuelTextExactCI(elem, match[3]);
-		};
+		$.expr.createPseudo(text => elem => fuelTextExactCI(elem, text)) :
+		(elem, i, match) => fuelTextExactCI(elem, match[3]);
 
 });
 /*
@@ -2542,7 +2544,7 @@ define('fuelux/util',['require','jquery'],function (require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/combobox',['require','jquery','./util'],function (require) {
+define('fuelux/combobox',['require','jquery','./util'],require => {
 
 	var $ = require('jquery');
 	require('./util');
@@ -2565,7 +2567,7 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
 
 		constructor: Combobox,
 
-		selectedItem: function () {
+		selectedItem() {
 			var item = this.$selectedItem;
 			var data = {};
 
@@ -2580,23 +2582,23 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
 			return data;
 		},
 
-		selectByText: function (text) {
+		selectByText(text) {
 			var selector = 'li:fuelTextExactCI(' + text + ')';
 			this.selectBySelector(selector);
 		},
 
-		selectByValue: function (value) {
+		selectByValue(value) {
 			var selector = 'li[data-value=' + value + ']';
 			this.selectBySelector(selector);
 		},
 
-		selectByIndex: function (index) {
+		selectByIndex(index) {
 			// zero-based index
 			var selector = 'li:eq(' + index + ')';
 			this.selectBySelector(selector);
 		},
 
-		selectBySelector: function (selector) {
+		selectBySelector(selector) {
 			var $item = this.$element.find(selector);
 
 			if (typeof $item[0] !== 'undefined') {
@@ -2608,7 +2610,7 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
 			}
 		},
 
-		setDefaultSelection: function () {
+		setDefaultSelection() {
 			var selector = 'li[data-selected=true]:first';
 			var item = this.$element.find(selector);
 
@@ -2620,17 +2622,17 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
 			}
 		},
 
-		enable: function () {
+		enable() {
 			this.$input.removeAttr('disabled');
 			this.$button.removeClass('disabled');
 		},
 
-		disable: function () {
+		disable() {
 			this.$input.attr('disabled', true);
 			this.$button.addClass('disabled');
 		},
 
-		itemclicked: function (e) {
+		itemclicked(e) {
 			this.$selectedItem = $(e.target).parent();
 
 			// set input text and trigger input change event marked as synthetic
@@ -2646,7 +2648,7 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
 			e.preventDefault();
 		},
 
-		inputchanged: function (e, extra) {
+		inputchanged(e, extra) {
 
 			// skip processing for internally-generated synthetic event
 			// to avoid double processing
@@ -2694,9 +2696,9 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
 
 	// COMBOBOX DATA-API
 
-	$(function () {
+	$(() => {
 
-		$(window).on('load', function () {
+		$(window).on('load', () => {
 			$('.combobox').each(function () {
 				var $this = $(this);
 				if ($this.data('combobox')) return;
@@ -2721,7 +2723,7 @@ define('fuelux/combobox',['require','jquery','./util'],function (require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/datagrid',['require','jquery'],function(require) {
+define('fuelux/datagrid',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -2785,7 +2787,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 
 		constructor: Datagrid,
 
-		renderColumns: function () {
+		renderColumns() {
 			var self = this;
 
 			this.$footer.attr('colspan', this.columns.length);
@@ -2793,7 +2795,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 
 			var colHTML = '';
 
-			$.each(this.columns, function (index, column) {
+			$.each(this.columns, (index, column) => {
 				colHTML += '<th data-property="' + column.property + '"';
 				if (column.sortable) colHTML += ' class="sortable"';
 				colHTML += '>' + column.label + '</th>';
@@ -2802,7 +2804,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			self.$colheader.append(colHTML);
 		},
 
-		updateColumns: function ($target, direction) {
+		updateColumns($target, direction) {
 			var className = (direction === 'asc') ? 'icon-chevron-up' : 'icon-chevron-down';
 			this.$colheader.find('i').remove();
 			this.$colheader.find('th').removeClass('sorted');
@@ -2810,7 +2812,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			$target.addClass('sorted');
 		},
 
-		updatePageDropdown: function (data) {
+		updatePageDropdown(data) {
 			var pageHTML = '';
 
 			for (var i = 1; i <= data.pages; i++) {
@@ -2820,7 +2822,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			this.$pagedropdown.html(pageHTML);
 		},
 
-		updatePageButtons: function (data) {
+		updatePageButtons(data) {
 			if (data.page === 1) {
 				this.$prevpagebtn.attr('disabled', 'disabled');
 			} else {
@@ -2834,18 +2836,16 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			}
 		},
 
-		renderData: function () {
+		renderData() {
 			var self = this;
 
 			this.$tbody.html(this.placeholderRowHTML(this.options.loadingHTML));
 
-			this.options.dataSource.data(this.options.dataOptions, function (data) {
+			this.options.dataSource.data(this.options.dataOptions, data => {
 				var itemdesc = (data.count === 1) ? self.options.itemText : self.options.itemsText;
 				var rowHTML = '';
 
-				self.$footerchildren.css('visibility', function () {
-					return (data.count > 0) ? 'visible' : 'hidden';
-				});
+				self.$footerchildren.css('visibility', () => (data.count > 0) ? 'visible' : 'hidden');
 
 				self.$pageinput.val(data.page);
 				self.$pageslabel.text(data.pages);
@@ -2856,9 +2856,9 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 				self.updatePageDropdown(data);
 				self.updatePageButtons(data);
 
-				$.each(data.data, function (index, row) {
+				$.each(data.data, (index, row) => {
 					rowHTML += '<tr>';
-					$.each(self.columns, function (index, column) {
+					$.each(self.columns, (index, column) => {
 						rowHTML += '<td>' + row[column.property] + '</td>';
 					});
 					rowHTML += '</tr>';
@@ -2874,12 +2874,12 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 
 		},
 
-		placeholderRowHTML: function (content) {
+		placeholderRowHTML(content) {
 			return '<tr><td style="text-align:center;padding:20px;border-bottom:none;" colspan="' +
 				this.columns.length + '">' + content + '</td></tr>';
 		},
 
-		headerClicked: function (e) {
+		headerClicked(e) {
 			var $target = $(e.target);
 			if (!$target.hasClass('sortable')) return;
 
@@ -2899,7 +2899,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			this.renderData();
 		},
 
-		pagesizeChanged: function (e, pageSize) {
+		pagesizeChanged(e, pageSize) {
 			if(pageSize) {
 				this.options.dataOptions.pageSize = parseInt(pageSize.value, 10);
 			} else {
@@ -2910,38 +2910,38 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			this.renderData();
 		},
 
-		pageChanged: function (e) {
+		pageChanged(e) {
 			this.options.dataOptions.pageIndex = parseInt($(e.target).val(), 10) - 1;
 			this.renderData();
 		},
 
-		searchChanged: function (e, search) {
+		searchChanged(e, search) {
 			this.options.dataOptions.search = search;
 			this.options.dataOptions.pageIndex = 0;
 			this.renderData();
 		},
 
-		filterChanged: function (e, filter) {
+		filterChanged(e, filter) {
 			this.options.dataOptions.filter = filter;
 			this.renderData();
 		},
 
-		previous: function () {
+		previous() {
 			this.options.dataOptions.pageIndex--;
 			this.renderData();
 		},
 
-		next: function () {
+		next() {
 			this.options.dataOptions.pageIndex++;
 			this.renderData();
 		},
 
-		reload: function () {
+		reload() {
 			this.options.dataOptions.pageIndex = 0;
 			this.renderData();
 		},
 
-		initStretchHeight: function () {
+		initStretchHeight() {
 			this.$gridContainer = this.$element.parent();
 
 			this.$element.wrap('<div class="datagrid-stretch-wrapper">');
@@ -2960,7 +2960,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			this.$tfoot.detach().appendTo(this.$footerTable);
 		},
 
-		stretchHeight: function () {
+		stretchHeight() {
 			if (!this.$gridContainer) return;
 
 			this.setColumnWidths();
@@ -2973,7 +2973,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
 			this.$stretchWrapper.height(targetHeight - overhead);
 		},
 
-		setColumnWidths: function () {
+		setColumnWidths() {
 			if (!this.$sizingHeader) return;
 
 			this.$element.prepend(this.$sizingHeader);
@@ -3026,7 +3026,7 @@ define('fuelux/datagrid',['require','jquery'],function(require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/pillbox',['require','jquery'],function(require) {
+define('fuelux/pillbox',['require','jquery'],require => {
 	
 	var $ = require('jquery');
 
@@ -3042,14 +3042,14 @@ define('fuelux/pillbox',['require','jquery'],function(require) {
 	Pillbox.prototype = {
 		constructor: Pillbox,
 
-		items: function() {
+		items() {
 			return this.$element.find('li').map(function() {
 				var $this = $(this);
 				return $.extend({ text: $this.text() }, $this.data());
 			}).get();
 		},
 
-		itemclicked: function (e) {
+		itemclicked(e) {
 			$(e.currentTarget).remove();
 			e.preventDefault();
 		}
@@ -3080,7 +3080,7 @@ define('fuelux/pillbox',['require','jquery'],function(require) {
 
 	// PILLBOX DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.pillbox.data-api', '.pillbox', function (e) {
 			var $this = $(this);
 			if ($this.data('pillbox')) return;
@@ -3099,7 +3099,7 @@ define('fuelux/pillbox',['require','jquery'],function(require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/radio',['require','jquery'],function (require) {
+define('fuelux/radio',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -3127,7 +3127,7 @@ define('fuelux/radio',['require','jquery'],function (require) {
 
 		constructor: Radio,
 
-		setState: function ($radio, resetGroupState) {
+		setState($radio, resetGroupState) {
 			var checked = $radio.is(':checked');
 			var disabled = $radio.is(':disabled');
 
@@ -3140,22 +3140,22 @@ define('fuelux/radio',['require','jquery'],function (require) {
 			}
 		},
 
-		resetGroup: function () {
+		resetGroup() {
 			// reset all radio buttons in group
 			$('input[name=' + this.groupName + ']').next().removeClass('checked');
 		},
 
-		enable: function () {
+		enable() {
 			this.$radio.attr('disabled', false);
 			this.$icon.removeClass('disabled');
 		},
 
-		disable: function () {
+		disable() {
 			this.$radio.attr('disabled', true);
 			this.$icon.addClass('disabled');
 		},
 
-		itemchecked: function (e) {
+		itemchecked(e) {
 			var radio = $(e.target);
 
 			this.resetGroup();
@@ -3188,8 +3188,8 @@ define('fuelux/radio',['require','jquery'],function (require) {
 
 	// RADIO DATA-API
 
-	$(function () {
-		$(window).on('load', function () {
+	$(() => {
+		$(window).on('load', () => {
 			//$('i.radio').each(function () {
 			$('.radio-custom > input[type=radio]').each(function () {
 				var $this = $(this);
@@ -3209,7 +3209,7 @@ define('fuelux/radio',['require','jquery'],function (require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/search',['require','jquery'],function(require) {
+define('fuelux/search',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -3235,20 +3235,20 @@ define('fuelux/search',['require','jquery'],function(require) {
 
 		constructor: Search,
 
-		search: function (searchText) {
+		search(searchText) {
 			this.$icon.attr('class', 'icon-remove');
 			this.activeSearch = searchText;
 			this.$element.trigger('searched', searchText);
 		},
 
-		clear: function () {
+		clear() {
 			this.$icon.attr('class', 'icon-search');
 			this.activeSearch = '';
 			this.$input.val('');
 			this.$element.trigger('cleared');
 		},
 
-		action: function () {
+		action() {
 			var val = this.$input.val();
 			var inputEmptyOrUnchanged = val === '' || val === this.activeSearch;
 
@@ -3259,37 +3259,38 @@ define('fuelux/search',['require','jquery'],function(require) {
 			}
 		},
 
-		buttonclicked: function (e) {
+		buttonclicked(e) {
 			e.preventDefault();
 			if ($(e.currentTarget).is('.disabled, :disabled')) return;
 			this.action();
 		},
 
-		keypress: function (e) {
+		keypress(e) {
 			if (e.which === 13) {
 				e.preventDefault();
 			}
 		},
 
-		keypressed: function (e) {
-			var val, inputPresentAndUnchanged;
+		keypressed(e) {
+          var val;
+          var inputPresentAndUnchanged;
 
-			if (e.which === 13) {
-				e.preventDefault();
-				this.action();
-			} else {
-				val = this.$input.val();
-				inputPresentAndUnchanged = val && (val === this.activeSearch);
-				this.$icon.attr('class', inputPresentAndUnchanged ? 'icon-remove' : 'icon-search');
-			}
-		},
+          if (e.which === 13) {
+              e.preventDefault();
+              this.action();
+          } else {
+              val = this.$input.val();
+              inputPresentAndUnchanged = val && (val === this.activeSearch);
+              this.$icon.attr('class', inputPresentAndUnchanged ? 'icon-remove' : 'icon-search');
+          }
+        },
 
-		disable: function () {
+		disable() {
 			this.$input.attr('disabled', 'disabled');
 			this.$button.addClass('disabled');
 		},
 
-		enable: function () {
+		enable() {
 			this.$input.removeAttr('disabled');
 			this.$button.removeClass('disabled');
 		}
@@ -3317,7 +3318,7 @@ define('fuelux/search',['require','jquery'],function(require) {
 
 	// SEARCH DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.search.data-api', '.search', function () {
 			var $this = $(this);
 			if ($this.data('search')) return;
@@ -3335,7 +3336,7 @@ define('fuelux/search',['require','jquery'],function(require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/spinner',['require','jquery'],function(require) {
+define('fuelux/spinner',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -3383,12 +3384,12 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 	Spinner.prototype = {
 		constructor: Spinner,
 
-		render: function () {
+		render() {
 			this.$input.val(this.options.value);
 			this.$input.attr('maxlength',(this.options.max + '').split('').length);
 		},
 
-		change: function () {
+		change() {
 			var newVal = this.$input.val();
 
 			if(newVal/1){
@@ -3402,13 +3403,13 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 			this.triggerChangedEvent();
 		},
 
-		stopSpin: function () {
+		stopSpin() {
 			clearTimeout(this.switches.timeout);
 			this.switches.count = 1;
 			this.triggerChangedEvent();
 		},
 
-		triggerChangedEvent: function () {
+		triggerChangedEvent() {
 			var currentValue = this.value();
 			if (currentValue === this.lastValue) return;
 
@@ -3421,7 +3422,7 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 			this.$element.trigger('change');
 		},
 
-		startSpin: function (type) {
+		startSpin(type) {
 
 			if (!this.options.disabled) {
 				var divisor = this.switches.count;
@@ -3442,12 +3443,12 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 			}
 		},
 
-		iterator: function (type) {
+		iterator(type) {
 			this.step(type);
 			this.startSpin(type);
 		},
 
-		step: function (dir) {
+		step(dir) {
 			var curValue = this.options.value;
 			var limValue = dir ? this.options.max : this.options.min;
 
@@ -3462,7 +3463,7 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 			}
 		},
 
-		value: function (value) {
+		value(value) {
 			if (typeof value !== 'undefined') {
 				this.options.value = value;
 				this.$input.val(value);
@@ -3472,13 +3473,13 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 			}
 		},
 
-		disable: function () {
+		disable() {
 			this.options.disabled = true;
 			this.$input.attr('disabled','');
 			this.$element.find('button').addClass('disabled');
 		},
 
-		enable: function () {
+		enable() {
 			this.options.disabled = false;
 			this.$input.removeAttr("disabled");
 			this.$element.find('button').removeClass('disabled');
@@ -3518,7 +3519,7 @@ define('fuelux/spinner',['require','jquery'],function(require) {
 
 	// SPINNER DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.spinner.data-api', '.spinner', function (e) {
 			var $this = $(this);
 			if ($this.data('spinner')) return;
@@ -3535,7 +3536,7 @@ define('fuelux/spinner',['require','jquery'],function(require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/select',['require','jquery','./util'],function(require) {
+define('fuelux/select',['require','jquery','./util'],require => {
 
     var $ = require('jquery');
 	require('./util');
@@ -3559,7 +3560,7 @@ define('fuelux/select',['require','jquery','./util'],function(require) {
 
         constructor: Select,
 
-        itemclicked: function (e) {
+        itemclicked(e) {
             this.$selectedItem = $(e.target).parent();
             this.$label.text(this.$selectedItem.text());
 
@@ -3573,7 +3574,7 @@ define('fuelux/select',['require','jquery','./util'],function(require) {
             e.preventDefault();
         },
 
-        resize: function() {
+        resize() {
             var el = $('#selectTextSize')[0];
 
             // create element if it doesn't exist
@@ -3600,35 +3601,35 @@ define('fuelux/select',['require','jquery','./util'],function(require) {
             this.$label.width(width);
         },
 
-        selectedItem: function() {
+        selectedItem() {
             var txt = this.$selectedItem.text();
             return $.extend({ text: txt }, this.$selectedItem.data());
         },
 
-        selectByText: function(text) {
+        selectByText(text) {
             var selector = 'li a:fuelTextExactCI(' + text + ')';
             this.selectBySelector(selector);
         },
 
-        selectByValue: function(value) {
+        selectByValue(value) {
             var selector = 'li[data-value=' + value + ']';
             this.selectBySelector(selector);
         },
 
-        selectByIndex: function(index) {
+        selectByIndex(index) {
             // zero-based index
             var selector = 'li:eq(' + index + ')';
             this.selectBySelector(selector);
         },
 
-        selectBySelector: function(selector) {
+        selectBySelector(selector) {
             var item = this.$element.find(selector);
 
             this.$selectedItem = item;
             this.$label.text(this.$selectedItem.text());
         },
 
-        setDefaultSelection: function() {
+        setDefaultSelection() {
             var selector = 'li[data-selected=true]:first';
             var item = this.$element.find(selector);
             if(item.length === 0) {
@@ -3643,11 +3644,11 @@ define('fuelux/select',['require','jquery','./util'],function(require) {
             }
         },
 
-        enable: function() {
+        enable() {
             this.$button.removeClass('disabled');
         },
 
-        disable: function() {
+        disable() {
             this.$button.addClass('disabled');
         }
 
@@ -3678,9 +3679,9 @@ define('fuelux/select',['require','jquery','./util'],function(require) {
 
     // SELECT DATA-API
 
-    $(function () {
+    $(() => {
 
-        $(window).on('load', function () {
+        $(window).on('load', () => {
             $('.select').each(function () {
                 var $this = $(this);
                 if ($this.data('select')) return;
@@ -3705,7 +3706,7 @@ define('fuelux/select',['require','jquery','./util'],function(require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/tree',['require','jquery'],function(require) {
+define('fuelux/tree',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -3725,19 +3726,19 @@ define('fuelux/tree',['require','jquery'],function(require) {
 	Tree.prototype = {
 		constructor: Tree,
 
-		render: function () {
+		render() {
 			this.populate(this.$element);
 		},
 
-		populate: function ($el) {
+		populate($el) {
 			var self = this;
 			var loader = $el.parent().find('.tree-loader:eq(0)');
 
 			loader.show();
-			this.options.dataSource.data($el.data(), function (items) {
+			this.options.dataSource.data($el.data(), items => {
 				loader.hide();
 
-				$.each( items.data, function(index, value) {
+				$.each( items.data, (index, value) => {
 					var $entity;
 
 					if(value.type === "folder") {
@@ -3762,13 +3763,13 @@ define('fuelux/tree',['require','jquery'],function(require) {
 			});
 		},
 
-		selectItem: function (el) {
+		selectItem(el) {
 			var $el = $(el);
 			var $all = this.$element.find('.tree-selected');
 			var data = [];
 
 			if (this.options.multiSelect) {
-				$.each($all, function(index, value) {
+				$.each($all, (index, value) => {
 					var $val = $(value);
 					if($val[0] !== $el[0]) {
 						data.push( $(value).data() );
@@ -3797,7 +3798,7 @@ define('fuelux/tree',['require','jquery'],function(require) {
 
 		},
 
-		selectFolder: function (el) {
+		selectFolder(el) {
 			var $el = $(el);
 			var $par = $el.parent();
 
@@ -3828,11 +3829,11 @@ define('fuelux/tree',['require','jquery'],function(require) {
 			}
 		},
 
-		selectedItems: function () {
+		selectedItems() {
 			var $sel = this.$element.find('.tree-selected');
 			var data = [];
 
-			$.each($sel, function (index, value) {
+			$.each($sel, (index, value) => {
 				data.push($(value).data());
 			});
 			return data;
@@ -3875,7 +3876,7 @@ define('fuelux/tree',['require','jquery'],function(require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/wizard',['require','jquery'],function (require) {
+define('fuelux/wizard',['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -3906,7 +3907,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
 
 		constructor: Wizard,
 
-		setState: function () {
+		setState() {
 			var canMovePrev = (this.currentStep > 1);
 			var firstStep = (this.currentStep === 1);
 			var lastStep = (this.currentStep === this.numSteps);
@@ -3951,7 +3952,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
 			this.$element.trigger('changed');
 		},
 
-		stepclicked: function (e) {
+		stepclicked(e) {
 			var li = $(e.currentTarget);
 
 			var index = $('.steps li').index(li);
@@ -3964,7 +3965,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
 			this.setState();
 		},
 
-		previous: function () {
+		previous() {
 			var canMovePrev = (this.currentStep > 1);
 			if (canMovePrev) {
 				var e = $.Event('change');
@@ -3976,7 +3977,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
 			}
 		},
 
-		next: function () {
+		next() {
 			var canMoveNext = (this.currentStep + 1 <= this.numSteps);
 			var lastStep = (this.currentStep === this.numSteps);
 
@@ -3994,7 +3995,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
 			}
 		},
 
-		selectedItem: function (val) {
+		selectedItem(val) {
 			return {
 				step: this.currentStep
 			};
@@ -4026,7 +4027,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
 
 	// WIZARD DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.wizard.data-api', '.wizard', function () {
 			var $this = $(this);
 			if ($this.data('wizard')) return;
@@ -4044,7 +4045,7 @@ define('fuelux/wizard',['require','jquery'],function (require) {
  * Licensed under the MIT license.
  */
 
-define('fuelux/all',['require','jquery','bootstrap/bootstrap-affix','bootstrap/bootstrap-alert','bootstrap/bootstrap-button','bootstrap/bootstrap-carousel','bootstrap/bootstrap-collapse','bootstrap/bootstrap-dropdown','bootstrap/bootstrap-modal','bootstrap/bootstrap-popover','bootstrap/bootstrap-scrollspy','bootstrap/bootstrap-tab','bootstrap/bootstrap-tooltip','bootstrap/bootstrap-transition','bootstrap/bootstrap-typeahead','fuelux/checkbox','fuelux/combobox','fuelux/datagrid','fuelux/pillbox','fuelux/radio','fuelux/search','fuelux/spinner','fuelux/select','fuelux/tree','fuelux/wizard'],function (require) {
+define('fuelux/all',['require','jquery','bootstrap/bootstrap-affix','bootstrap/bootstrap-alert','bootstrap/bootstrap-button','bootstrap/bootstrap-carousel','bootstrap/bootstrap-collapse','bootstrap/bootstrap-dropdown','bootstrap/bootstrap-modal','bootstrap/bootstrap-popover','bootstrap/bootstrap-scrollspy','bootstrap/bootstrap-tab','bootstrap/bootstrap-tooltip','bootstrap/bootstrap-transition','bootstrap/bootstrap-typeahead','fuelux/checkbox','fuelux/combobox','fuelux/datagrid','fuelux/pillbox','fuelux/radio','fuelux/search','fuelux/spinner','fuelux/select','fuelux/tree','fuelux/wizard'],require => {
 	require('jquery');
 	require('bootstrap/bootstrap-affix');
 	require('bootstrap/bootstrap-alert');
