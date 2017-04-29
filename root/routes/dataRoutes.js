@@ -8,5 +8,5 @@ var Schema = mongoose.Schema;
 var itemSchema = require( '../data/itemSchema' );
 
 module.exports = {
-    createItem: function(){}
+    createItem() {}
 };

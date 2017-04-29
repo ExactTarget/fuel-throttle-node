@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function(require) {
+define(['require','jquery'],require => {
 	
 	var $ = require('jquery');
 
@@ -22,14 +22,14 @@ define(['require','jquery'],function(require) {
 	Pillbox.prototype = {
 		constructor: Pillbox,
 
-		items: function() {
+		items() {
 			return this.$element.find('li').map(function() {
 				var $this = $(this);
 				return $.extend({ text: $this.text() }, $this.data());
 			}).get();
 		},
 
-		itemclicked: function (e) {
+		itemclicked(e) {
 			$(e.currentTarget).remove();
 			e.preventDefault();
 		}
@@ -60,7 +60,7 @@ define(['require','jquery'],function(require) {
 
 	// PILLBOX DATA-API
 
-	$(function () {
+	$(() => {
 		$('body').on('mousedown.pillbox.data-api', '.pillbox', function (e) {
 			var $this = $(this);
 			if ($this.data('pillbox')) return;

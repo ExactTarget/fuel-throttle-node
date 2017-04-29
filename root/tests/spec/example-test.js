@@ -2,7 +2,7 @@
 Unit Test Example
 ********************************/
 module( "Example Unit Test" );
-test( "Example Test", 2, function() {
+test( "Example Test", 2, () => {
     // Verify the method exists
     equal( typeof divide, 'function', 'Must contain a divide function' ); 
 

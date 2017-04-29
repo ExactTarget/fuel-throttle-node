@@ -8,24 +8,25 @@
   define: false, window: false, process: false, Packages: false,
   java: false, location: false */
 
-define(['module'], function (module) {
+define(['module'], module => {
     'use strict';
 
-    var progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
-        xmlRegExp = /^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im,
-        bodyRegExp = /<body[^>]*>\s*([\s\S]+)\s*<\/body>/im,
-        hasLocation = typeof location !== 'undefined' && location.href,
-        defaultProtocol = hasLocation && location.protocol && location.protocol.replace(/\:/, ''),
-        defaultHostName = hasLocation && location.hostname,
-        defaultPort = hasLocation && (location.port || undefined),
-        buildMap = [],
-        masterConfig = (module.config && module.config()) || {},
-        text, fs;
+    var progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'];
+    var xmlRegExp = /^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im;
+    var bodyRegExp = /<body[^>]*>\s*([\s\S]+)\s*<\/body>/im;
+    var hasLocation = typeof location !== 'undefined' && location.href;
+    var defaultProtocol = hasLocation && location.protocol && location.protocol.replace(/\:/, '');
+    var defaultHostName = hasLocation && location.hostname;
+    var defaultPort = hasLocation && (location.port || undefined);
+    var buildMap = [];
+    var masterConfig = (module.config && module.config()) || {};
+    var text;
+    var fs;
 
     text = {
         version: '2.0.1',
 
-        strip: function (content) {
+        strip(content) {
             //Strips <?xml ...?> declarations so that external SVG and XML
             //documents can be added to a document without worry. Also, if the string
             //is an HTML document, only the part inside the body tag is returned.
@@ -41,7 +42,7 @@ define(['module'], function (module) {
             return content;
         },
 
-        jsEscape: function (content) {
+        jsEscape(content) {
             return content.replace(/(['\\])/g, '\\$1')
                 .replace(/[\f]/g, "\\f")
                 .replace(/[\b]/g, "\\b")
@@ -52,9 +53,12 @@ define(['module'], function (module) {
                 .replace(/[\u2029]/g, "\\u2029");
         },
 
-        createXhr: masterConfig.createXhr || function () {
+        createXhr: masterConfig.createXhr || (() => {
             //Would love to dump the ActiveX crap in here. Need IE 6 to die first.
-            var xhr, i, progId;
+            var xhr;
+
+            var i;
+            var progId;
             if (typeof XMLHttpRequest !== "undefined") {
                 return new XMLHttpRequest();
             } else if (typeof ActiveXObject !== "undefined") {
@@ -72,7 +76,7 @@ define(['module'], function (module) {
             }
 
             return xhr;
-        },
+        }),
 
         /**
          * Parses a resource name into its component parts. Resource names
@@ -82,10 +86,11 @@ define(['module'], function (module) {
          * @returns {Object} with properties "moduleName", "ext" and "strip"
          * where strip is a boolean.
          */
-        parseName: function (name) {
-            var strip = false, index = name.indexOf("."),
-                modName = name.substring(0, index),
-                ext = name.substring(index + 1, name.length);
+        parseName(name) {
+            var strip = false;
+            var index = name.indexOf(".");
+            var modName = name.substring(0, index);
+            var ext = name.substring(index + 1, name.length);
 
             index = ext.indexOf("!");
             if (index !== -1) {
@@ -97,8 +102,8 @@ define(['module'], function (module) {
 
             return {
                 moduleName: modName,
-                ext: ext,
-                strip: strip
+                ext,
+                strip
             };
         },
 
@@ -112,9 +117,11 @@ define(['module'], function (module) {
          * @param {String} url
          * @returns Boolean
          */
-        useXhr: function (url, protocol, hostname, port) {
-            var match = text.xdRegExp.exec(url),
-                uProtocol, uHostName, uPort;
+        useXhr(url, protocol, hostname, port) {
+            var match = text.xdRegExp.exec(url);
+            var uProtocol;
+            var uHostName;
+            var uPort;
             if (!match) {
                 return true;
             }
@@ -130,7 +137,7 @@ define(['module'], function (module) {
                    ((!uPort && !uHostName) || uPort === port);
         },
 
-        finishLoad: function (name, strip, content, onLoad) {
+        finishLoad(name, strip, content, onLoad) {
             content = strip ? text.strip(content) : content;
             if (masterConfig.isBuild) {
                 buildMap[name] = content;
@@ -138,7 +145,7 @@ define(['module'], function (module) {
             onLoad(content);
         },
 
-        load: function (name, req, onLoad, config) {
+        load(name, req, onLoad, config) {
             //Name has format: some.module.filext!strip
             //The strip part is optional.
             //if strip is present, then that means only get the string contents
@@ -155,17 +162,18 @@ define(['module'], function (module) {
 
             masterConfig.isBuild = config.isBuild;
 
-            var parsed = text.parseName(name),
-                nonStripName = parsed.moduleName + '.' + parsed.ext,
-                url = req.toUrl(nonStripName),
-                useXhr = (masterConfig.useXhr) ||
-                         text.useXhr;
+            var parsed = text.parseName(name);
+            var nonStripName = parsed.moduleName + '.' + parsed.ext;
+            var url = req.toUrl(nonStripName);
+
+            var useXhr = (masterConfig.useXhr) ||
+                     text.useXhr;
 
             //Load the text. Use XHR if possible and in a browser.
             if (!hasLocation || useXhr(url, defaultProtocol, defaultHostName, defaultPort)) {
-                text.get(url, function (content) {
+                text.get(url, content => {
                     text.finishLoad(name, parsed.strip, content, onLoad);
-                }, function (err) {
+                }, err => {
                     if (onLoad.error) {
                         onLoad.error(err);
                     }
@@ -175,14 +183,14 @@ define(['module'], function (module) {
                 //the resource has been optimized into a JS module. Fetch
                 //by the module name + extension, but do not include the
                 //!strip part to avoid file system issues.
-                req([nonStripName], function (content) {
+                req([nonStripName], content => {
                     text.finishLoad(parsed.moduleName + '.' + parsed.ext,
                                     parsed.strip, content, onLoad);
                 });
             }
         },
 
-        write: function (pluginName, moduleName, write, config) {
+        write(pluginName, moduleName, write, config) {
             if (buildMap.hasOwnProperty(moduleName)) {
                 var content = text.jsEscape(buildMap[moduleName]);
                 write.asModule(pluginName + "!" + moduleName,
@@ -192,27 +200,24 @@ define(['module'], function (module) {
             }
         },
 
-        writeFile: function (pluginName, moduleName, req, write, config) {
-            var parsed = text.parseName(moduleName),
-                nonStripName = parsed.moduleName + '.' + parsed.ext,
-                //Use a '.js' file name so that it indicates it is a
-                //script that can be loaded across domains.
-                fileName = req.toUrl(parsed.moduleName + '.' +
-                                     parsed.ext) + '.js';
+        writeFile(pluginName, moduleName, req, write, config) {
+            var parsed = text.parseName(moduleName);
+            var nonStripName = parsed.moduleName + '.' + parsed.ext;
+
+            var //Use a '.js' file name so that it indicates it is a
+            //script that can be loaded across domains.
+            fileName = req.toUrl(parsed.moduleName + '.' +
+                                 parsed.ext) + '.js';
 
             //Leverage own load() method to load plugin value, but only
             //write out values that do not have the strip argument,
             //to avoid any potential issues with ! in file names.
-            text.load(nonStripName, req, function (value) {
+            text.load(nonStripName, req, value => {
                 //Use own write() method to construct full module value.
                 //But need to create shell that translates writeFile's
                 //write() to the right interface.
-                var textWrite = function (contents) {
-                    return write(fileName, contents);
-                };
-                textWrite.asModule = function (moduleName, contents) {
-                    return write.asModule(moduleName, fileName, contents);
-                };
+                var textWrite = contents => write(fileName, contents);
+                textWrite.asModule = (moduleName, contents) => write.asModule(moduleName, fileName, contents);
 
                 text.write(pluginName, nonStripName, textWrite, config);
             }, config);
@@ -225,7 +230,7 @@ define(['module'], function (module) {
         //Using special require.nodeRequire, something added by r.js.
         fs = require.nodeRequire('fs');
 
-        text.get = function (url, callback) {
+        text.get = (url, callback) => {
             var file = fs.readFileSync(url, 'utf8');
             //Remove BOM (Byte Mark Order) from utf8 files if it is there.
             if (file.indexOf('\uFEFF') === 0) {
@@ -234,7 +239,7 @@ define(['module'], function (module) {
             callback(file);
         };
     } else if (text.createXhr()) {
-        text.get = function (url, callback, errback) {
+        text.get = (url, callback, errback) => {
             var xhr = text.createXhr();
             xhr.open('GET', url, true);
 
@@ -243,8 +248,9 @@ define(['module'], function (module) {
                 masterConfig.onXhr(xhr, url);
             }
 
-            xhr.onreadystatechange = function (evt) {
-                var status, err;
+            xhr.onreadystatechange = evt => {
+                var status;
+                var err;
                 //Do not explicitly handle errors, those should be
                 //visible via console output in the browser.
                 if (xhr.readyState === 4) {
@@ -263,13 +269,14 @@ define(['module'], function (module) {
         };
     } else if (typeof Packages !== 'undefined') {
         //Why Java, why is this so awkward?
-        text.get = function (url, callback) {
-            var encoding = "utf-8",
-                file = new java.io.File(url),
-                lineSeparator = java.lang.System.getProperty("line.separator"),
-                input = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file), encoding)),
-                stringBuffer, line,
-                content = '';
+        text.get = (url, callback) => {
+            var encoding = "utf-8";
+            var file = new java.io.File(url);
+            var lineSeparator = java.lang.System.getProperty("line.separator");
+            var input = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file), encoding));
+            var stringBuffer;
+            var line;
+            var content = '';
             try {
                 stringBuffer = new java.lang.StringBuffer();
                 line = input.readLine();

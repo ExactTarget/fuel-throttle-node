@@ -40,10 +40,10 @@ var tf = new TokenFactory({});
  *	@param {obj} res
  *	@param {function} next
  */
-var tokenManager = function( req, res, next ) {
+var tokenManager = (req, res, next) => {
 	// If we don't have a valid session, create one
 	if( !tf.isValidSession( req ) ) {
-		tf.upsertSession( req, res, function( error, data ) {
+		tf.upsertSession( req, res, (error, data) => {
 			if( error ) {
 				throw new Error( error );
 			}
@@ -56,7 +56,7 @@ var tokenManager = function( req, res, next ) {
 };
 
 // Configure Express
-app.configure( function() {
+app.configure( () => {
 	// Determine base endpoint for static assets
 	config.staticBase = config.endpoints.defaultStaticBase + ( config.endpoints.versionedDir ? packageJSON.version + '/' : '' );
 
@@ -101,31 +101,31 @@ app.configure( function() {
 
 	// Comment Error pages
 	// Handle 404
-	app.use( function( req, res ) {
+	app.use( (req, res) => {
 		res.status( 404 );
 		res.render( '404', {title: '404: File Not Found', error: 'The file you are seeking is not here'} );
 	});
 
 	// Handle 500 errors
-	app.use( function( err, req, res, next ) {
+	app.use( (err, req, res, next) => {
 		res.status( 500 );
 		res.render( '500', {title: '500: Internal Server Error', error: err} );
 	});
 });
 
 // Express should foam at the mouth like a rabid wildebeest
-app.configure('verbose', function() {
+app.configure('verbose', () => {
 	app.use(express.logger());
 	app.use( express.errorHandler({ dumpException: true, showStack: true }));
 });
 
 // Express should do this stuff in development environment
-app.configure('development', function() {
+app.configure('development', () => {
 	app.use( express.errorHandler({ dumpException: true, showStack: true }));
 });
 
 // Express should do this stuff in production environment
-app.configure('production', function() {
+app.configure('production', () => {
 	console.log( 'Node in production mode' );
 });
 
@@ -149,7 +149,7 @@ app.get('/logout', routes.logout );
 app.post('/rest/item', dataRoutes.createItem );
 
 // Local testing
-app.get('/testform', function( req, res ) {
+app.get('/testform', (req, res) => {
 	res.render( 'testform', {
 		jwt: req.query.jwt || ''
 	});

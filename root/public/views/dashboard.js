@@ -1,10 +1,10 @@
-define( function( require ) {
+define( require => {
     var Backbone = require( 'backbone' );
     var Config = require( 'config' );
     var dashboardTemplate = require( 'tmpl!templates/dashboard.html' );
 
     return Backbone.View.extend({
-        initialize: function() {
+        initialize() {
             _.bindAll( this );
 
             // TODO: Example bind loading of collection fetch success to this view's render
@@ -12,10 +12,10 @@ define( function( require ) {
             this.render();
         },
 
-        clean: function() {
+        clean() {
         },
 
-        render: function() {
+        render() {
             $('#{%=name%}-Loading').remove();
 
             var templateObj = {

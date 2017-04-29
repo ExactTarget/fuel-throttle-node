@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function(require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -70,7 +70,7 @@ define(['require','jquery'],function(require) {
 
 		constructor: Datagrid,
 
-		renderColumns: function () {
+		renderColumns() {
 			var self = this;
 
 			this.$footer.attr('colspan', this.columns.length);
@@ -78,7 +78,7 @@ define(['require','jquery'],function(require) {
 
 			var colHTML = '';
 
-			$.each(this.columns, function (index, column) {
+			$.each(this.columns, (index, column) => {
 				colHTML += '<th data-property="' + column.property + '"';
 				if (column.sortable) colHTML += ' class="sortable"';
 				colHTML += '>' + column.label + '</th>';
@@ -87,7 +87,7 @@ define(['require','jquery'],function(require) {
 			self.$colheader.append(colHTML);
 		},
 
-		updateColumns: function ($target, direction) {
+		updateColumns($target, direction) {
 			var className = (direction === 'asc') ? 'icon-chevron-up' : 'icon-chevron-down';
 			this.$colheader.find('i').remove();
 			this.$colheader.find('th').removeClass('sorted');
@@ -95,7 +95,7 @@ define(['require','jquery'],function(require) {
 			$target.addClass('sorted');
 		},
 
-		updatePageDropdown: function (data) {
+		updatePageDropdown(data) {
 			var pageHTML = '';
 
 			for (var i = 1; i <= data.pages; i++) {
@@ -105,7 +105,7 @@ define(['require','jquery'],function(require) {
 			this.$pagedropdown.html(pageHTML);
 		},
 
-		updatePageButtons: function (data) {
+		updatePageButtons(data) {
 			if (data.page === 1) {
 				this.$prevpagebtn.attr('disabled', 'disabled');
 			} else {
@@ -119,18 +119,16 @@ define(['require','jquery'],function(require) {
 			}
 		},
 
-		renderData: function () {
+		renderData() {
 			var self = this;
 
 			this.$tbody.html(this.placeholderRowHTML(this.options.loadingHTML));
 
-			this.options.dataSource.data(this.options.dataOptions, function (data) {
+			this.options.dataSource.data(this.options.dataOptions, data => {
 				var itemdesc = (data.count === 1) ? self.options.itemText : self.options.itemsText;
 				var rowHTML = '';
 
-				self.$footerchildren.css('visibility', function () {
-					return (data.count > 0) ? 'visible' : 'hidden';
-				});
+				self.$footerchildren.css('visibility', () => (data.count > 0) ? 'visible' : 'hidden');
 
 				self.$pageinput.val(data.page);
 				self.$pageslabel.text(data.pages);
@@ -141,9 +139,9 @@ define(['require','jquery'],function(require) {
 				self.updatePageDropdown(data);
 				self.updatePageButtons(data);
 
-				$.each(data.data, function (index, row) {
+				$.each(data.data, (index, row) => {
 					rowHTML += '<tr>';
-					$.each(self.columns, function (index, column) {
+					$.each(self.columns, (index, column) => {
 						rowHTML += '<td>' + row[column.property] + '</td>';
 					});
 					rowHTML += '</tr>';
@@ -159,12 +157,12 @@ define(['require','jquery'],function(require) {
 
 		},
 
-		placeholderRowHTML: function (content) {
+		placeholderRowHTML(content) {
 			return '<tr><td style="text-align:center;padding:20px;border-bottom:none;" colspan="' +
 				this.columns.length + '">' + content + '</td></tr>';
 		},
 
-		headerClicked: function (e) {
+		headerClicked(e) {
 			var $target = $(e.target);
 			if (!$target.hasClass('sortable')) return;
 
@@ -184,7 +182,7 @@ define(['require','jquery'],function(require) {
 			this.renderData();
 		},
 
-		pagesizeChanged: function (e, pageSize) {
+		pagesizeChanged(e, pageSize) {
 			if(pageSize) {
 				this.options.dataOptions.pageSize = parseInt(pageSize.value, 10);
 			} else {
@@ -195,38 +193,38 @@ define(['require','jquery'],function(require) {
 			this.renderData();
 		},
 
-		pageChanged: function (e) {
+		pageChanged(e) {
 			this.options.dataOptions.pageIndex = parseInt($(e.target).val(), 10) - 1;
 			this.renderData();
 		},
 
-		searchChanged: function (e, search) {
+		searchChanged(e, search) {
 			this.options.dataOptions.search = search;
 			this.options.dataOptions.pageIndex = 0;
 			this.renderData();
 		},
 
-		filterChanged: function (e, filter) {
+		filterChanged(e, filter) {
 			this.options.dataOptions.filter = filter;
 			this.renderData();
 		},
 
-		previous: function () {
+		previous() {
 			this.options.dataOptions.pageIndex--;
 			this.renderData();
 		},
 
-		next: function () {
+		next() {
 			this.options.dataOptions.pageIndex++;
 			this.renderData();
 		},
 
-		reload: function () {
+		reload() {
 			this.options.dataOptions.pageIndex = 0;
 			this.renderData();
 		},
 
-		initStretchHeight: function () {
+		initStretchHeight() {
 			this.$gridContainer = this.$element.parent();
 
 			this.$element.wrap('<div class="datagrid-stretch-wrapper">');
@@ -245,7 +243,7 @@ define(['require','jquery'],function(require) {
 			this.$tfoot.detach().appendTo(this.$footerTable);
 		},
 
-		stretchHeight: function () {
+		stretchHeight() {
 			if (!this.$gridContainer) return;
 
 			this.setColumnWidths();
@@ -258,7 +256,7 @@ define(['require','jquery'],function(require) {
 			this.$stretchWrapper.height(targetHeight - overhead);
 		},
 
-		setColumnWidths: function () {
+		setColumnWidths() {
 			if (!this.$sizingHeader) return;
 
 			this.$element.prepend(this.$sizingHeader);

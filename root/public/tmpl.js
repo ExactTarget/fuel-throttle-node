@@ -11,23 +11,30 @@
 /*global require: false, XMLHttpRequest: false, ActiveXObject: false,
   define: false, process: false, window: false */
 
-define( function( require ) {
-	var Handlebars = require( 'handlebars' );
+define( require => {
+    var Handlebars = require( 'handlebars' );
 
-	//>>excludeStart('excludeAfterBuild', pragmas.excludeAfterBuild)
-	var fs, getXhr,
-		progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
-		fetchText = function (url, callback) {
-			throw new Error('Environment unsupported.');
-		},
-		buildMap = [];
+    //>>excludeStart('excludeAfterBuild', pragmas.excludeAfterBuild)
+    var fs;
 
-	if (typeof window !== "undefined" && window.navigator && window.document) {
+    var getXhr;
+    var progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'];
+
+    var fetchText = (url, callback) => {
+        throw new Error('Environment unsupported.');
+    };
+
+    var buildMap = [];
+
+    if (typeof window !== "undefined" && window.navigator && window.document) {
 		// Browser action
-		getXhr = function () {
-			//Would love to dump the ActiveX crap in here. Need IE 6 to die first.
-			var xhr, i, progId;
-			if (typeof XMLHttpRequest !== "undefined") {
+		getXhr = () => {
+            //Would love to dump the ActiveX crap in here. Need IE 6 to die first.
+            var xhr;
+
+            var i;
+            var progId;
+            if (typeof XMLHttpRequest !== "undefined") {
 				return new XMLHttpRequest();
 			} else {
 				for (i = 0; i < 3; i++) {
@@ -43,17 +50,17 @@ define( function( require ) {
 				}
 			}
 
-			if (!xhr) {
+            if (!xhr) {
 				throw new Error("getXhr(): XMLHttpRequest not available");
 			}
 
-			return xhr;
-		};
+            return xhr;
+        };
 
-		fetchText = function (url, callback) {
+		fetchText = (url, callback) => {
 			var xhr = getXhr();
 			xhr.open('GET', url, true);
-			xhr.onreadystatechange = function (evt) {
+			xhr.onreadystatechange = evt => {
 				//Do not explicitly handle errors, those should be
 				//visible via console output in the browser.
 				if (xhr.readyState === 4) {
@@ -68,19 +75,20 @@ define( function( require ) {
 			   !!process.versions.node) {
 		//Using special require.nodeRequire, something added by r.js.
 		fs = require.nodeRequire('fs');
-		fetchText = function (path, callback) {
+		fetchText = (path, callback) => {
 			callback(fs.readFileSync(path, 'utf8'));
 		};
 	} else if (typeof Packages !== 'undefined') {
 		//Why Java, why is this so awkward?
-		fetchText = function (path, callback) {
-			var encoding = "utf-8",
-				file = new java.io.File(path),
-				lineSeparator = java.lang.System.getProperty("line.separator"),
-				input = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file), encoding)),
-				stringBuffer, line,
-				content = '';
-			try {
+		fetchText = (path, callback) => {
+            var encoding = "utf-8";
+            var file = new java.io.File(path);
+            var lineSeparator = java.lang.System.getProperty("line.separator");
+            var input = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file), encoding));
+            var stringBuffer;
+            var line;
+            var content = '';
+            try {
 				stringBuffer = new java.lang.StringBuffer();
 				line = input.readLine();
 
@@ -107,15 +115,15 @@ define( function( require ) {
 			} finally {
 				input.close();
 			}
-			callback(content);
-		};
+            callback(content);
+        };
 	}
-	//>>excludeEnd('excludeAfterBuild')
+    //>>excludeEnd('excludeAfterBuild')
 
-	return {
+    return {
 
 		//>>excludeStart('excludeAfterBuild', pragmas.excludeAfterBuild)
-		write: function (pluginName, name, write) {
+		write(pluginName, name, write) {
 			if (name in buildMap) {
 				var text = buildMap[name];
 				write.asModule(pluginName + "!" + name, text);
@@ -123,10 +131,10 @@ define( function( require ) {
 		},
 		//>>excludeEnd('excludeAfterBuild')
 
-		load: function (name, parentRequire, load, config) {
+		load(name, parentRequire, load, config) {
 			//>>excludeStart('excludeAfterBuild', pragmas.excludeAfterBuild)
 			var path = parentRequire.toUrl(name);
-			fetchText(path, function (text) {
+			fetchText(path, text => {
 				//Do Handlebars transform.
 				text = Handlebars.precompile(text);
 				text = "define(['handlebars'], function (Handlebars) { return Handlebars.template(" + text + "); });";
@@ -151,12 +159,11 @@ define( function( require ) {
 				//Give result to load. Need to wait until the module
 				//is fully parse, which will happen after this
 				//execution.
-				parentRequire([name], function (value) {
+				parentRequire([name], value => {
 					load(value);
 				});
 			});
 			//>>excludeEnd('excludeAfterBuild')
 		}
 	};
-
 });

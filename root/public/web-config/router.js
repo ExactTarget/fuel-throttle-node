@@ -1,4 +1,4 @@
-define( function( require ) {
+define( require => {
     var Backbone = require( 'backbone' );
     var DashboardView = require( 'views/dashboard' );
 
@@ -9,19 +9,19 @@ define( function( require ) {
         },
 
         // Initialize the router
-        initialize: function() {
+        initialize() {
             _.bindAll( this );
             
             // Assumes Google Analytics trackPageView will be called
             return this;
         },
 
-        renderDashboard: function(){
+        renderDashboard() {
             var dashboardView = new DashboardView();
         },
 
         // Google Analytics handler
-        _trackPageview: function() {
+        _trackPageview() {
             var url;
             url = Backbone.history.getFragment();
             return _gaq.push(['_trackPageview', "/" + url]);

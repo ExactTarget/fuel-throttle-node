@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery','./util'],function(require) {
+define(['require','jquery','./util'],require => {
 
     var $ = require('jquery');
 	require('./util');
@@ -30,7 +30,7 @@ define(['require','jquery','./util'],function(require) {
 
         constructor: Select,
 
-        itemclicked: function (e) {
+        itemclicked(e) {
             this.$selectedItem = $(e.target).parent();
             this.$label.text(this.$selectedItem.text());
 
@@ -44,7 +44,7 @@ define(['require','jquery','./util'],function(require) {
             e.preventDefault();
         },
 
-        resize: function() {
+        resize() {
             var el = $('#selectTextSize')[0];
 
             // create element if it doesn't exist
@@ -71,35 +71,35 @@ define(['require','jquery','./util'],function(require) {
             this.$label.width(width);
         },
 
-        selectedItem: function() {
+        selectedItem() {
             var txt = this.$selectedItem.text();
             return $.extend({ text: txt }, this.$selectedItem.data());
         },
 
-        selectByText: function(text) {
+        selectByText(text) {
             var selector = 'li a:fuelTextExactCI(' + text + ')';
             this.selectBySelector(selector);
         },
 
-        selectByValue: function(value) {
+        selectByValue(value) {
             var selector = 'li[data-value=' + value + ']';
             this.selectBySelector(selector);
         },
 
-        selectByIndex: function(index) {
+        selectByIndex(index) {
             // zero-based index
             var selector = 'li:eq(' + index + ')';
             this.selectBySelector(selector);
         },
 
-        selectBySelector: function(selector) {
+        selectBySelector(selector) {
             var item = this.$element.find(selector);
 
             this.$selectedItem = item;
             this.$label.text(this.$selectedItem.text());
         },
 
-        setDefaultSelection: function() {
+        setDefaultSelection() {
             var selector = 'li[data-selected=true]:first';
             var item = this.$element.find(selector);
             if(item.length === 0) {
@@ -114,11 +114,11 @@ define(['require','jquery','./util'],function(require) {
             }
         },
 
-        enable: function() {
+        enable() {
             this.$button.removeClass('disabled');
         },
 
-        disable: function() {
+        disable() {
             this.$button.addClass('disabled');
         }
 
@@ -149,9 +149,9 @@ define(['require','jquery','./util'],function(require) {
 
     // SELECT DATA-API
 
-    $(function () {
+    $(() => {
 
-        $(window).on('load', function () {
+        $(window).on('load', () => {
             $('.select').each(function () {
                 var $this = $(this);
                 if ($this.data('select')) return;

@@ -31,7 +31,7 @@ exports.after = 'You should now install project dependencies with _npm ' +
 exports.warnOn = '*';
 
 // The actual init template.
-exports.template = function(grunt, init, done) {
+exports.template = (grunt, init, done) => {
 
   init.process({type: 'et-hub-app'}, [
     // Prompt for these values.
@@ -90,7 +90,7 @@ exports.template = function(grunt, init, done) {
         default: '',
         warning: ''
     }
-  ], function(err, props) {
+  ], (err, props) => {
     props.keywords = [];
     props.dependencies = {
         "config": "0.4.20",
@@ -150,7 +150,7 @@ exports.template = function(grunt, init, done) {
     // TODO: Make sure all the files are processed
 
     // Generate package.json file.
-    init.writePackageJSON('package.json', props, function( pkg, props ) {
+    init.writePackageJSON('package.json', props, (pkg, props) => {
         var pkg = pkg || {};
         if( props.volo ) { pkg.volo = props.volo; }
         if( props.css_prefix ) { pkg.css_prefix = props.css_prefix; }

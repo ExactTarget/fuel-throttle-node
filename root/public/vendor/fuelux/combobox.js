@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery','./util'],function (require) {
+define(['require','jquery','./util'],require => {
 
 	var $ = require('jquery');
 	require('./util');
@@ -29,7 +29,7 @@ define(['require','jquery','./util'],function (require) {
 
 		constructor: Combobox,
 
-		selectedItem: function () {
+		selectedItem() {
 			var item = this.$selectedItem;
 			var data = {};
 
@@ -44,23 +44,23 @@ define(['require','jquery','./util'],function (require) {
 			return data;
 		},
 
-		selectByText: function (text) {
+		selectByText(text) {
 			var selector = 'li:fuelTextExactCI(' + text + ')';
 			this.selectBySelector(selector);
 		},
 
-		selectByValue: function (value) {
+		selectByValue(value) {
 			var selector = 'li[data-value=' + value + ']';
 			this.selectBySelector(selector);
 		},
 
-		selectByIndex: function (index) {
+		selectByIndex(index) {
 			// zero-based index
 			var selector = 'li:eq(' + index + ')';
 			this.selectBySelector(selector);
 		},
 
-		selectBySelector: function (selector) {
+		selectBySelector(selector) {
 			var $item = this.$element.find(selector);
 
 			if (typeof $item[0] !== 'undefined') {
@@ -72,7 +72,7 @@ define(['require','jquery','./util'],function (require) {
 			}
 		},
 
-		setDefaultSelection: function () {
+		setDefaultSelection() {
 			var selector = 'li[data-selected=true]:first';
 			var item = this.$element.find(selector);
 
@@ -84,17 +84,17 @@ define(['require','jquery','./util'],function (require) {
 			}
 		},
 
-		enable: function () {
+		enable() {
 			this.$input.removeAttr('disabled');
 			this.$button.removeClass('disabled');
 		},
 
-		disable: function () {
+		disable() {
 			this.$input.attr('disabled', true);
 			this.$button.addClass('disabled');
 		},
 
-		itemclicked: function (e) {
+		itemclicked(e) {
 			this.$selectedItem = $(e.target).parent();
 
 			// set input text and trigger input change event marked as synthetic
@@ -110,7 +110,7 @@ define(['require','jquery','./util'],function (require) {
 			e.preventDefault();
 		},
 
-		inputchanged: function (e, extra) {
+		inputchanged(e, extra) {
 
 			// skip processing for internally-generated synthetic event
 			// to avoid double processing
@@ -158,9 +158,9 @@ define(['require','jquery','./util'],function (require) {
 
 	// COMBOBOX DATA-API
 
-	$(function () {
+	$(() => {
 
-		$(window).on('load', function () {
+		$(window).on('load', () => {
 			$('.combobox').each(function () {
 				var $this = $(this);
 				if ($this.data('combobox')) return;

@@ -5,7 +5,7 @@
 
 /*global define: false*/
 
-(function (root, factory) {
+(((root, factory) => {
   if (typeof exports === "object" && exports) {
     module.exports = factory; // CommonJS
   } else if (typeof define === "function" && define.amd) {
@@ -13,7 +13,7 @@
   } else {
     root.Mustache = factory; // <script>
   }
-}(this, (function () {
+})(this, ((() => {
 
   var exports = {};
 
@@ -45,9 +45,7 @@
     return !testRe(nonSpaceRe, string);
   }
 
-  var isArray = Array.isArray || function (obj) {
-    return _toString.call(obj) === '[object Array]';
-  };
+  var isArray = Array.isArray || (obj => _toString.call(obj) === '[object Array]');
 
   function escapeRe(string) {
     return string.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
@@ -63,9 +61,7 @@
   };
 
   function escapeHtml(string) {
-    return String(string).replace(/[&<>"'\/]/g, function (s) {
-      return entityMap[s];
-    });
+    return String(string).replace(/[&<>"'\/]/g, s => entityMap[s]);
   }
 
   // Export the escaping function so that the user may override it.
@@ -106,7 +102,8 @@
    * the skipped string, which is the entire tail if no match can be made.
    */
   Scanner.prototype.scanUntil = function (re) {
-    var match, pos = this.tail.search(re);
+    var match;
+    var pos = this.tail.search(re);
 
     switch (pos) {
     case -1:
@@ -132,9 +129,7 @@
     this._cache = {};
   }
 
-  Context.make = function (view) {
-    return (view instanceof Context) ? view : new Context(view);
-  };
+  Context.make = view => (view instanceof Context) ? view : new Context(view);
 
   Context.prototype.push = function (view) {
     return new Context(view, this);
@@ -152,7 +147,8 @@
         while (context) {
           if (name.indexOf('.') > 0) {
             value = context.view;
-            var names = name.split('.'), i = 0;
+            var names = name.split('.');
+            var i = 0;
             while (value && i < names.length) {
               value = value[names[i++]];
             }
@@ -210,7 +206,7 @@
 
   Writer.prototype.compileTokens = function (tokens, template) {
     var self = this;
-    return function (view, partials) {
+    return (view, partials) => {
       if (partials) {
         if (typeof partials === 'function') {
           self._loadPartial = partials;
@@ -238,7 +234,9 @@
   function renderTokens(tokens, writer, context, template) {
     var buffer = '';
 
-    var token, tokenValue, value;
+    var token;
+    var tokenValue;
+    var value;
     for (var i = 0, len = tokens.length; i < len; ++i) {
       token = tokens[i];
       tokenValue = token[1];
@@ -257,9 +255,7 @@
           }
         } else if (typeof value === 'function') {
           var text = template == null ? null : template.slice(token[3], token[5]);
-          value = value.call(context.view, text, function (template) {
-            return writer.render(template, context);
-          });
+          value = value.call(context.view, text, template => writer.render(template, context));
           if (value != null) buffer += value;
         } else if (value) {
           buffer += renderTokens(token[4], writer, context, template);
@@ -338,7 +334,8 @@
   function squashTokens(tokens) {
     var squashedTokens = [];
 
-    var token, lastToken;
+    var token;
+    var lastToken;
     for (var i = 0, len = tokens.length; i < len; ++i) {
       token = tokens[i];
       if (token) {
@@ -368,7 +365,7 @@
    * opening and closing tags used in the template (e.g. ["<%", "%>"]). Of
    * course, the default is to use mustaches (i.e. Mustache.tags).
    */
-  exports.parse = function (template, tags) {
+  exports.parse = (template, tags) => {
     template = template || '';
     tags = tags || exports.tags;
 
@@ -399,7 +396,11 @@
       nonSpace = false;
     }
 
-    var start, type, value, chr, token;
+    var start;
+    var type;
+    var value;
+    var chr;
+    var token;
     while (!scanner.eos()) {
       start = scanner.pos;
 
@@ -483,44 +484,34 @@
   /**
    * Clears all cached templates and partials in the default writer.
    */
-  exports.clearCache = function () {
-    return _writer.clearCache();
-  };
+  exports.clearCache = () => _writer.clearCache();
 
   /**
    * Compiles the given `template` to a reusable function using the default
    * writer.
    */
-  exports.compile = function (template, tags) {
-    return _writer.compile(template, tags);
-  };
+  exports.compile = (template, tags) => _writer.compile(template, tags);
 
   /**
    * Compiles the partial with the given `name` and `template` to a reusable
    * function using the default writer.
    */
-  exports.compilePartial = function (name, template, tags) {
-    return _writer.compilePartial(name, template, tags);
-  };
+  exports.compilePartial = (name, template, tags) => _writer.compilePartial(name, template, tags);
 
   /**
    * Compiles the given array of tokens (the output of a parse) to a reusable
    * function using the default writer.
    */
-  exports.compileTokens = function (tokens, template) {
-    return _writer.compileTokens(tokens, template);
-  };
+  exports.compileTokens = (tokens, template) => _writer.compileTokens(tokens, template);
 
   /**
    * Renders the `template` with the given `view` and `partials` using the
    * default writer.
    */
-  exports.render = function (template, view, partials) {
-    return _writer.render(template, view, partials);
-  };
+  exports.render = (template, view, partials) => _writer.render(template, view, partials);
 
   // This is here for backwards compatibility with 0.4.x.
-  exports.to_html = function (template, view, partials, send) {
+  exports.to_html = (template, view, partials, send) => {
     var result = exports.render(template, view, partials);
 
     if (typeof send === "function") {
@@ -532,5 +523,5 @@
 
   return exports;
 
-}())));
+})())));
 

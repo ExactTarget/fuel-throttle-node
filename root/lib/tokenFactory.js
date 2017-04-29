@@ -76,7 +76,7 @@ TokenFactory.prototype._fetchSessionParams = function( req, res, callback ) {
         } else {
             fuelSessionInstance = this._getActiveSessionFuelInstance( clientSessionId );
         }
-        return {tokenInstanceObj: fuelSessionInstance, clientSessionId: clientSessionId };
+        return {tokenInstanceObj: fuelSessionInstance, clientSessionId };
     }
 
     // Create a new set of session params and return them
@@ -125,12 +125,12 @@ TokenFactory.prototype._createNewActiveSession = function( req, clientSessionId,
  *  @param {string} refreshToken refreshToken value obtained from JWT
  *  @return {function} New fuel-node instance
  */
-TokenFactory.prototype._configureFuelInstance = function( refreshToken ) {
+TokenFactory.prototype._configureFuelInstance = refreshToken => {
     var tokenInstance = new fuel.token.configure({
         authUrl: config.environment.requestToken,
         clientId: config.environment.oAuth.clientId,
         clientSecret: config.environment.oAuth.clientSecret,
-        refreshToken: refreshToken,
+        refreshToken,
         accessType: 'offline'
     });
 
@@ -146,12 +146,12 @@ TokenFactory.prototype._configureFuelInstance = function( refreshToken ) {
  *  @param {function} callback Async function defined in constructor
  *  @return {} Constructor's callback is fired with error or tokenData
  */
-TokenFactory.prototype._fetchToken = function( req, res, paramObj, callback ) {
+TokenFactory.prototype._fetchToken = (req, res, paramObj, callback) => {
 
     var fuelInstance = paramObj.tokenInstanceObj;
     var csid = paramObj.clientSessionId;
     if( _.isFunction( fuelInstance ) ) {
-        fuelInstance( function( error, response, tokenData ) {
+        fuelInstance( (error, response, tokenData) => {
             if( error ) {
                 return callback( error );
             }
@@ -171,7 +171,7 @@ TokenFactory.prototype._fetchToken = function( req, res, paramObj, callback ) {
  *  @param {function} callback Async function defined in constructor
  *  @return {string} MD5 sum of jwt and timestamp
  */
-TokenFactory.prototype._configureSessionIdHash = function( jwt, callback ) {
+TokenFactory.prototype._configureSessionIdHash = (jwt, callback) => {
     // Generate a timestamp for uniqueness to the JWT
     var ts = Date.now();
 
@@ -187,7 +187,7 @@ TokenFactory.prototype._configureSessionIdHash = function( jwt, callback ) {
  *  @param {obj} req The Express request object
  *  @return {string} the id from existing cookie or false
  */
-TokenFactory.prototype._getSessionIdFromCookie = function( req ) {
+TokenFactory.prototype._getSessionIdFromCookie = req => {
     // Sanity check
     if( _.isEmpty( req.signedCookies ) ) {
         return false;

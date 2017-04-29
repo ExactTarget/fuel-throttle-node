@@ -6,7 +6,7 @@
  * Licensed under the MIT license.
  */
 
-define(['require','jquery'],function(require) {
+define(['require','jquery'],require => {
 
 	var $ = require('jquery');
 
@@ -26,19 +26,19 @@ define(['require','jquery'],function(require) {
 	Tree.prototype = {
 		constructor: Tree,
 
-		render: function () {
+		render() {
 			this.populate(this.$element);
 		},
 
-		populate: function ($el) {
+		populate($el) {
 			var self = this;
 			var loader = $el.parent().find('.tree-loader:eq(0)');
 
 			loader.show();
-			this.options.dataSource.data($el.data(), function (items) {
+			this.options.dataSource.data($el.data(), items => {
 				loader.hide();
 
-				$.each( items.data, function(index, value) {
+				$.each( items.data, (index, value) => {
 					var $entity;
 
 					if(value.type === "folder") {
@@ -63,13 +63,13 @@ define(['require','jquery'],function(require) {
 			});
 		},
 
-		selectItem: function (el) {
+		selectItem(el) {
 			var $el = $(el);
 			var $all = this.$element.find('.tree-selected');
 			var data = [];
 
 			if (this.options.multiSelect) {
-				$.each($all, function(index, value) {
+				$.each($all, (index, value) => {
 					var $val = $(value);
 					if($val[0] !== $el[0]) {
 						data.push( $(value).data() );
@@ -98,7 +98,7 @@ define(['require','jquery'],function(require) {
 
 		},
 
-		selectFolder: function (el) {
+		selectFolder(el) {
 			var $el = $(el);
 			var $par = $el.parent();
 
@@ -129,11 +129,11 @@ define(['require','jquery'],function(require) {
 			}
 		},
 
-		selectedItems: function () {
+		selectedItems() {
 			var $sel = this.$element.find('.tree-selected');
 			var data = [];
 
-			$.each($sel, function (index, value) {
+			$.each($sel, (index, value) => {
 				data.push($(value).data());
 			});
 			return data;
